@@ -1,0 +1,401 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Panel Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #faf7f2 0%, #fff9f5 100%);
+            color: #2d3e50;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #d4956f 0%, #c9836d 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header-left h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+        }
+
+        .user-info i {
+            font-size: 1.3rem;
+        }
+
+        .user-info span {
+            font-weight: 600;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid #d4956f;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .stat-card.warning {
+            border-left-color: #ff9f5a;
+        }
+
+        .stat-card.danger {
+            border-left-color: #ff6b6b;
+        }
+
+        .stat-card.success {
+            border-left-color: #a8d5c9;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4956f;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card.warning .stat-number {
+            color: #ff9f5a;
+        }
+
+        .stat-card.danger .stat-number {
+            color: #ff6b6b;
+        }
+
+        .stat-card.success .stat-number {
+            color: #a8d5c9;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #7f7b82;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-decoration: none;
+            color: #2d3e50;
+            text-align: center;
+            transition: all 0.2s;
+            border-top: 3px solid transparent;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            border-top-color: #d4956f;
+        }
+
+        .menu-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #d4956f;
+        }
+
+        .menu-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #2d3e50;
+        }
+
+        .menu-card p {
+            font-size: 0.85rem;
+            color: #9cbb9a;
+        }
+
+        .sales-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-top: 3rem;
+        }
+
+        .sales-summary h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+            color: #2d3e50;
+            font-size: 1.2rem;
+        }
+
+        .sales-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sales-row:last-child {
+            border-bottom: none;
+        }
+
+        .sales-row .label {
+            color: #7f7b82;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .sales-row .value {
+            font-weight: 600;
+            color: #d4956f;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-left h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="admin-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>
+                    <i class="fas fa-crown"></i>
+                    Panel de Administrador
+                </h1>
+                <p>Gestión central de la papelería</p>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'usuarios:logout' %}" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Salir
+    </a>
+
+    <!-- Contenido principal -->
+    <div class="admin-container">
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_productos }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-boxes"></i>
+                    Productos Activos
+                </div>
+            </div>
+
+            <div class="stat-card danger">
+                <div class="stat-number">{{ sin_stock }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Sin Stock
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="stat-number">{{ productos_bajo_stock }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Stock Bajo
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="stat-number">{{ usuarios_activos }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-users"></i>
+                    Usuarios Activos
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen de ventas del día -->
+        {% if resumen %}
+        <div class="sales-summary">
+            <h3>
+                <i class="fas fa-chart-line"></i>
+                Resumen de Ventas - {{ hoy|date:"d/m/Y" }}
+            </h3>
+            <div class="sales-row">
+                <span class="label">
+                    <i class="fas fa-receipt"></i>
+                    Total Ventas
+                </span>
+                <span class="value">${{ resumen.total_general|floatformat:2 }}</span>
+            </div>
+            <div class="sales-row">
+                <span class="label">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Vendidas en Efectivo
+                </span>
+                <span class="value">${{ resumen.total_efectivo|floatformat:2 }}</span>
+            </div>
+            <div class="sales-row">
+                <span class="label">
+                    <i class="fas fa-mobile-alt"></i>
+                    Vendidas por Transferencia
+                </span>
+                <span class="value">${{ resumen.total_transferencias|floatformat:2 }}</span>
+            </div>
+            <div class="sales-row">
+                <span class="label">
+                    <i class="fas fa-shopping-cart"></i>
+                    Cantidad de Ventas
+                </span>
+                <span class="value">{{ resumen.cantidad_ventas }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Menú de opciones -->
+        <h2 style="margin-top: 3rem; margin-bottom: 2rem; color: #2d3e50;">
+            <i class="fas fa-cog"></i> Opciones de Administración
+        </h2>
+
+        <div class="menu-grid">
+            <a href="{% url 'reportes:dashboard' %}" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Reportes</h3>
+                <p>Ver análisis de ventas</p>
+            </a>
+
+            <a href="{% url 'reportes:stock_bajo' %}" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h3>Inventario</h3>
+                <p>Gestionar productos</p>
+            </a>
+
+            <a href="{% url 'usuarios:bitacora' %}" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3>Bitácora</h3>
+                <p>Historial de acciones</p>
+            </a>
+
+            <a href="{% url 'caja:corte' %}" class="menu-card">
+                <div class="menu-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Corte de Caja</h3>
+                <p>Cierre diario</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

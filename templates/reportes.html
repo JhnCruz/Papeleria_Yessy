@@ -1,0 +1,596 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Reportes</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Título */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Selector de fecha */
+        .date-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .date-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border-radius: 60px;
+            border: 2px solid #ffe9d7;
+        }
+
+        .date-group i {
+            color: #bc9b8b;
+        }
+
+        .date-group input {
+            border: none;
+            padding: 0.7rem 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            background: transparent;
+        }
+
+        .report-btn {
+            background: #e8a87c;
+            border: none;
+            border-radius: 60px;
+            padding: 0.7rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .report-btn:hover {
+            background: #e5987c;
+        }
+
+        /* Grid de reportes */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 40px;
+            padding: 1.8rem;
+            border: 2px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .report-card:hover {
+            border-color: #e8a87c;
+            transform: translateY(-3px);
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .report-header i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+
+        .report-header h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        /* Tablas dentro de reportes */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table tr {
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .report-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .report-table td {
+            padding: 0.8rem 0;
+        }
+
+        .report-table .producto {
+            color: #4a4e69;
+            font-weight: 500;
+        }
+
+        .report-table .cantidad {
+            color: #e5987c;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .report-table .total {
+            color: #2d6a4f;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .view-all {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #e8a87c;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem;
+        }
+
+        /* Bitácora */
+        .log-section {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .log-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .log-header i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+
+        .log-header h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .log-item:last-child {
+            border-bottom: none;
+        }
+
+        .log-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: #f8f4f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e8a87c;
+        }
+
+        .log-detail {
+            flex: 1;
+        }
+
+        .log-detail p {
+            font-weight: 600;
+            color: #4a4e69;
+            margin-bottom: 0.2rem;
+        }
+
+        .log-detail span {
+            font-size: 0.85rem;
+            color: #bc9b8b;
+        }
+
+        .log-user {
+            background: #fdf0e0;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            color: #9d6b53;
+            font-size: 0.85rem;
+        }
+
+        /* Estados de stock */
+        .stock-sin-stock {
+            color: #f28b82 !important;
+        }
+
+        .stock-urgente {
+            color: #e5987c !important;
+        }
+
+        .stock-normal {
+            color: #9cbb9a !important;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 700px) {
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-file-alt"></i>
+            <h1>Reportes y bitácora</h1>
+        </div>
+
+        <!-- Selector de fecha (simple) -->
+        <div class="date-selector">
+            <form method="GET" action="{% url 'reportes:dashboard' %}" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="date-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" name="fecha_inicio" id="fechaInicio" value="{{ fecha_inicio|date:'Y-m-d' }}" required>
+                </div>
+                <div class="date-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" name="fecha_fin" id="fechaFin" value="{{ fecha_fin|date:'Y-m-d' }}" required>
+                </div>
+                <button class="report-btn" type="submit">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </form>
+        </div>
+
+        <!-- Grid de reportes -->
+        <div class="reports-grid">
+            <!-- Productos más vendidos -->
+            <div class="report-card">
+                <div class="report-header">
+                    <i class="fas fa-star"></i>
+                    <h3>Más vendidos</h3>
+                </div>
+                <table class="report-table">
+                    {% for producto in productos_vendidos %}
+                    <tr>
+                        <td class="producto">{{ producto.producto|truncatewords:3 }}</td>
+                        <td class="cantidad">{{ producto.cantidad_total|default:0 }} pz</td>
+                        <td class="total">${{ producto.monto_total|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #bc9b8b;">Sin ventas en este período</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a href="{% url 'reportes:productos_vendidos' %}" class="view-all">Ver todos <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Ventas por método de pago -->
+            <div class="report-card">
+                <div class="report-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Ventas por método</h3>
+                </div>
+                <table class="report-table">
+                    <tr>
+                        <td class="producto"><i class="fas fa-money-bill-wave"></i> Efectivo</td>
+                        <td class="cantidad">{{ resumen.cantidad_efectivo|default:0 }} ventas</td>
+                        <td class="total">${{ resumen.total_efectivo|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="producto"><i class="fas fa-mobile-alt"></i> Transferencia</td>
+                        <td class="cantidad">{{ resumen.cantidad_transferencias|default:0 }} ventas</td>
+                        <td class="total">${{ resumen.total_transferencias|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="producto"><strong>Total</strong></td>
+                        <td class="cantidad"><strong>{{ resumen.cantidad_ventas|default:0 }} ventas</strong></td>
+                        <td class="total"><strong>${{ resumen.total_ventas|default:0 }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Movimientos de inventario -->
+            <div class="report-card">
+                <div class="report-header">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Movimientos inventario</h3>
+                </div>
+                <table class="report-table">
+                    <tr>
+                        <td class="producto">📦 Entradas (compras)</td>
+                        <td class="cantidad">+{{ movimientos.entradas|default:0 }} pz</td>
+                    </tr>
+                    <tr>
+                        <td class="producto">🧾 Salidas (ventas)</td>
+                        <td class="cantidad">{{ movimientos.salidas|default:0 }} pz</td>
+                    </tr>
+                    <tr>
+                        <td class="producto">🔄 Ajustes manuales</td>
+                        <td class="cantidad">{% if movimientos.ajustes > 0 %}+{% endif %}{{ movimientos.ajustes|default:0 }} pz</td>
+                    </tr>
+                    <tr>
+                        <td class="producto">❌ Cancelaciones</td>
+                        <td class="cantidad">{{ movimientos.cancelaciones|default:0 }} pz</td>
+                    </tr>
+                </table>
+                <a href="{% url 'reportes:movimientos' %}" class="view-all">Ver detalle <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Productos con bajo stock -->
+            <div class="report-card">
+                <div class="report-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Stock bajo</h3>
+                </div>
+                <table class="report-table">
+                    {% for producto in productos_bajo_stock %}
+                    <tr>
+                        <td class="producto">{{ producto.nombre }}</td>
+                        <td class="cantidad">{{ producto.stock_actual }} pz</td>
+                        <td class="total {% if producto.stock_actual == 0 %}stock-sin-stock{% elif producto.stock_actual < producto.stock_minimo %}stock-urgente{% else %}stock-normal{% endif %}">
+                            {% if producto.stock_actual == 0 %}¡Sin stock!{% elif producto.stock_actual < producto.stock_minimo %}¡Urgente!{% else %}Pronto{% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #9cbb9a;">✅ Todo bien, stock normal</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a href="{% url 'reportes:stock_bajo' %}" class="view-all">Ver todos <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Bitácora de acciones -->
+        <div class="log-section">
+            <div class="log-header">
+                <i class="fas fa-history"></i>
+                <h3>Bitácora de acciones</h3>
+            </div>
+
+            {% for registro in bitacora %}
+            <div class="log-item">
+                <div class="log-icon">
+                    {% if 'venta' in registro.accion %}
+                        <i class="fas fa-cash-register"></i>
+                    {% elif 'inventario' in registro.accion %}
+                        <i class="fas fa-plus"></i>
+                    {% elif 'corte' in registro.accion %}
+                        <i class="fas fa-calculator"></i>
+                    {% elif 'cancelación' in registro.accion %}
+                        <i class="fas fa-ban"></i>
+                    {% else %}
+                        <i class="fas fa-box"></i>
+                    {% endif %}
+                </div>
+                <div class="log-detail">
+                    <p>{{ registro.descripcion }}</p>
+                    <span><i class="far fa-clock"></i> {{ registro.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <span class="log-user">{{ registro.usuario.get_full_name|default:registro.usuario.username }}</span>
+            </div>
+            {% empty %}
+            <div class="log-item">
+                <div style="text-align: center; color: #bc9b8b; padding: 2rem;">
+                    <i class="fas fa-inbox" style="font-size: 2rem; opacity: 0.5; margin-bottom: 1rem;"></i>
+                    <p>Sin registros en la bitácora</p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <a href="{% url 'usuarios:bitacora' %}" class="view-all">Ver bitácora completa <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart"></i> Papelería Yessy
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script>
+        // Validación de fechas en cliente
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const inicio = document.getElementById('fechaInicio').value;
+            const fin = document.getElementById('fechaFin').value;
+            
+            if (!inicio || !fin) {
+                e.preventDefault();
+                alert('⚠️ Debe seleccionar ambas fechas');
+                return false;
+            }
+            
+            if (inicio > fin) {
+                e.preventDefault();
+                alert('⚠️ La fecha de inicio no puede ser mayor que la fecha final');
+                return false;
+            }
+            
+            // Si pasa validación, permitir envío
+            return true;
+        });
+        
+        // Permitir envío con Enter
+        document.getElementById('fechaFin').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('form').submit();
+            }
+        });
+    </script>
+</body>
+</html>

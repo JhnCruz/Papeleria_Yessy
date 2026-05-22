@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Hora x Hora - Papelería Yessy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: #34495e;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #2c3e50;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.8rem;
+            color: #e8a87c;
+        }
+
+        .date-picker {
+            margin-bottom: 2rem;
+        }
+
+        .date-picker input {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-filtrar {
+            padding: 0.6rem 1.2rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e8a87c;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            color: #2d3e50;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .money {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .transaction-count {
+            background: #ecf0f1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .total-row {
+            background: #f8f9fa;
+            font-weight: 600;
+            border-top: 2px solid #e8a87c;
+        }
+
+        .total-value {
+            font-size: 1.2rem;
+            color: #27ae60;
+        }
+
+        .pie-chart {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-card {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3e50;
+        }
+
+        .chart-value {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid #e8a87c;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3e50;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="{% url 'caja:corte' %}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <div class="title">
+                <i class="fas fa-clock"></i>
+                <h1>Resumen Hora x Hora</h1>
+            </div>
+        </div>
+
+        <!-- Date Picker -->
+        <div class="date-picker">
+            <form method="GET" style="display: flex; gap: 1rem; align-items: center;">
+                <input type="date" name="fecha" value="{{ fecha }}" max="{% now 'Y-m-d' %}">
+                <button type="submit" class="btn-filtrar">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </form>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.7rem;">
+                <i class="fas fa-table" style="color: #e8a87c;"></i>
+                Ventas del {{ fecha|date:'d/m/Y' }}
+            </h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Transacciones</th>
+                        <th>Total Ventas</th>
+                        <th>Efectivo</th>
+                        <th>Transferencias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in resumen %}
+                    <tr>
+                        <td><strong>{{ item.hora }}</strong></td>
+                        <td><span class="transaction-count">{{ item.cantidad_transacciones }}</span></td>
+                        <td class="money">${{ item.total_ventas|floatformat:2 }}</td>
+                        <td>${{ item.total_efectivo|floatformat:2 }}</td>
+                        <td>${{ item.total_transferencias|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #7f8c8d; padding: 2rem;">
+                            <i class="fas fa-inbox"></i> No hay ventas registradas para este día
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if resumen %}
+                    <tr class="total-row">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>{{ resumen|length }} hora(s)</strong></td>
+                        <td class="total-value">${{ total_general|floatformat:2 }}</td>
+                        <td><strong class="money">${{ total_efectivo|floatformat:2 }}</strong></td>
+                        <td><strong class="money">${{ total_transferencias|floatformat:2 }}</strong></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <!-- Summary Cards -->
+            {% if resumen %}
+            <div class="summary">
+                <div class="summary-card">
+                    <div class="summary-label">Horas con Ventas</div>
+                    <div class="summary-value">{{ resumen|length }}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total General</div>
+                    <div class="summary-value" style="color: #27ae60;">
+                        ${{ total_general|floatformat:2 }}
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Promedio por Hora</div>
+                    <div class="summary-value">
+                        ${{ total_general|add:0.0|mul:1|div:resumen|length|floatformat:2 }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <i class="fas fa-info-circle"></i>
+            Papelería Yessy · Resumen de Ventas por Hora
+        </div>
+    </div>
+
+    <script>
+        // Prevent future dates
+        const dateInput = document.querySelector('input[name="fecha"]');
+        const today = new Date();
+        dateInput.max = today.toISOString().split('T')[0];
+    </script>
+</body>
+</html>

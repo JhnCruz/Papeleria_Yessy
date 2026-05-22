@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Pronto - Papelería Yessy</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f0eb 100%);
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .logout-container {
+            background: white;
+            border-radius: 50px;
+            padding: 3rem 2rem;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ffe9d7;
+            max-width: 500px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logout-icon {
+            font-size: 4rem;
+            color: #e8a87c;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: farewell 0.8s ease-out;
+        }
+
+        @keyframes farewell {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4a4e69;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .user-name {
+            color: #e8a87c;
+            font-weight: 700;
+        }
+
+        p {
+            color: #bc9b8b;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .status {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 1rem 1.5rem;
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .status i {
+            font-size: 1.3rem;
+        }
+
+        .returning {
+            color: #7f7b82;
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+        }
+
+        .returning a {
+            color: #e8a87c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .returning a:hover {
+            color: #d89a6e;
+        }
+
+        .redirect-notice {
+            color: #bc9b8b;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #e8a87c;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fdf0e0;
+            color: #9d6b53;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+
+        .footer-badge i {
+            color: #e8a87c;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <i class="fas fa-wave-hand logout-icon"></i>
+        
+        <h1>¡Hasta pronto!</h1>
+        
+        <p>
+            Sesión cerrada correctamente.
+            <br>
+            <span class="user-name">{{ user.username }}</span>, gracias por tu trabajo hoy 💪
+        </p>
+
+        <div class="status">
+            <i class="fas fa-check-circle"></i>
+            <span>Sesión finalizada</span>
+        </div>
+
+        <div class="returning">
+            <p>¿Necesitas volver?</p>
+            <a href="{% url 'usuarios:login' %}">
+                <i class="fas fa-sign-in-alt"></i> Iniciar sesión de nuevo
+            </a>
+        </div>
+
+        <div class="redirect-notice">
+            <span>Redirigiendo</span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <div class="footer-badge">
+            <i class="fas fa-heart"></i>
+            Papelería Yessy
+        </div>
+    </div>
+
+    <script>
+        // Redireccionar después de 4 segundos
+        setTimeout(() => {
+            window.location.href = "{% url 'usuarios:login' %}";
+        }, 4000);
+    </script>
+</body>
+</html>

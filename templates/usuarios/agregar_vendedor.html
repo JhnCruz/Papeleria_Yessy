@@ -1,0 +1,684 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Agregar Vendedor</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Títulos y mensajes */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .message {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .message-success {
+            background: #c9e4de;
+            color: #2d6a4f;
+            border: 2px solid #a8d5c9;
+        }
+
+        .message-error {
+            background: #fde4e4;
+            color: #8b3a3a;
+            border: 2px solid #f5b5b5;
+        }
+
+        .message i {
+            font-size: 1.2rem;
+        }
+
+        /* Grid principal */
+        .content-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Formulario */
+        .form-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+        }
+
+        .form-section h2 {
+            color: #4a4e69;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-section h2 i {
+            color: #e8a87c;
+        }
+
+        .form-group {
+            margin-bottom: 1.3rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #4a4e69;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group label span {
+            color: #e8a87c;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            color: #4a4e69;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #e8a87c;
+            box-shadow: 0 0 0 3px rgba(232, 168, 124, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #bc9b8b;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #e8a87c;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #d99860;
+            transform: scale(1.02);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Lista de vendedores */
+        .vendors-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+        }
+
+        .vendors-section h2 {
+            color: #4a4e69;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .vendors-section h2 i {
+            color: #e8a87c;
+        }
+
+        .vendor-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .vendor-item {
+            background: #fdf0e0;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .vendor-item:hover {
+            border-color: #e8a87c;
+            transform: translateX(5px);
+        }
+
+        .vendor-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .vendor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8a87c;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .vendor-details {
+            flex: 1;
+        }
+
+        .vendor-name {
+            font-weight: 600;
+            color: #4a4e69;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vendor-role {
+            font-size: 0.85rem;
+            color: #9d6b53;
+            margin-top: 0.2rem;
+        }
+
+        .vendor-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #c9e4de;
+            color: #2d6a4f;
+        }
+
+        .status-inactive {
+            background: #f5d5d0;
+            color: #8b5a4c;
+        }
+
+        .vendor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .action-btn-toggle {
+            background: #ffe9d7;
+            color: #e8a87c;
+        }
+
+        .action-btn-toggle:hover {
+            background: #ffd4b8;
+        }
+
+        .action-btn-delete {
+            background: #f5d5d0;
+            color: #d6453f;
+        }
+
+        .action-btn-delete:hover {
+            background: #f5b5b0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #bc9b8b;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px dotted #ffe9d7;
+            font-size: 0.85rem;
+            color: #bc9b8b;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="/" class="back-home">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+            <div class="store-badge">
+                <i class="fas fa-users"></i>
+                <span>Gestión de Vendedores</span>
+            </div>
+            <div class="user-chip">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ user.get_full_name|default:user.username }}</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-user-plus"></i>
+            <h1>Agregar Vendedor</h1>
+        </div>
+
+        <!-- Mensajes -->
+        {% if messages %}
+            {% for message in messages %}
+            <div class="message {% if message.tags %}message-{{ message.tags }}{% else %}message-success{% endif %}">
+                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Grid de contenido -->
+        <div class="content-grid">
+            <!-- Formulario de agregar vendedor -->
+            <form method="POST" class="form-section">
+                {% csrf_token %}
+                <h2>
+                    <i class="fas fa-user-tie"></i>
+                    Nuevo Vendedor
+                </h2>
+
+                <div class="form-group">
+                    <label for="username">
+                        Nombre de Usuario <span>*</span>
+                    </label>
+                    <input type="text" id="username" name="username" placeholder="ej: yessy_jefa" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">
+                            Nombre <span>*</span>
+                        </label>
+                        <input type="text" id="nombre" name="nombre" placeholder="ej: Yessy" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">
+                            Apellido
+                        </label>
+                        <input type="text" id="apellido" name="apellido" placeholder="ej: García">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        Contraseña <span>*</span>
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rol">
+                        Rol <span>*</span>
+                    </label>
+                    <select id="rol" name="rol" required>
+                        <option value="vendedor">👤 Vendedor</option>
+                        <option value="supervisor">🔑 Supervisor</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> Crear Vendedor
+                </button>
+            </form>
+
+            <!-- Lista de vendedores -->
+            <div class="vendors-section">
+                <h2>
+                    <i class="fas fa-list"></i>
+                    Vendedores Registrados ({{ vendedores.count }})
+                </h2>
+
+                {% if vendedores %}
+                    <div class="vendor-list">
+                        {% for vendedor in vendedores %}
+                        <div class="vendor-item" data-vendor-id="{{ vendedor.id }}">
+                            <div class="vendor-info">
+                                <div class="vendor-avatar">
+                                    {{ vendedor.first_name|first|upper|default:vendedor.username|first|upper }}
+                                </div>
+                                <div class="vendor-details">
+                                    <div class="vendor-name">
+                                        {{ vendedor.get_full_name|default:vendedor.username }}
+                                        {% if vendedor.id == user.id %}
+                                        <span style="font-size: 0.8rem; background: #c9e4de; color: #2d6a4f; padding: 0.2rem 0.6rem; border-radius: 10px;">(Tú)</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="vendor-role">
+                                        {{ vendedor.perfil.get_rol_display }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vendor-status">
+                                <span class="status-text {% if vendedor.perfil.activo %}status-active{% else %}status-inactive{% endif %}">
+                                    {% if vendedor.perfil.activo %}✓ Activo{% else %}⊘ Inactivo{% endif %}
+                                </span>
+                            </div>
+                            {% if vendedor.id != user.id %}
+                            <div class="vendor-actions">
+                                <button type="button" class="action-btn action-btn-toggle toggle-vendor-btn" data-vendor-id="{{ vendedor.id }}" title="Cambiar estado">
+                                    <i class="fas fa-toggle-{% if vendedor.perfil.activo %}on{% else %}off{% endif %}"></i>
+                                </button>
+                                <button type="button" class="action-btn action-btn-delete delete-vendor-btn" data-vendor-id="{{ vendedor.id }}" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No hay vendedores registrados</p>
+                        <small>¡Crea el primero usando el formulario de la izquierda!</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart" style="color: #f8acb4;"></i>
+                Papelería Yessy · Gestión de Personal
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+                <span><i class="fas fa-shield"></i> Seguro</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener CSRF token de múltiples formas
+        function getCSRFToken() {
+            // Método 1: Buscar en input del formulario
+            let token = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            if (token) {
+                return token.value;
+            }
+            
+            // Método 2: Buscar en meta tag
+            token = document.querySelector('meta[name="csrf-token"]');
+            if (token) {
+                return token.getAttribute('content');
+            }
+            
+            // Método 3: Buscar en cookie
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, 10) === ('csrftoken=')) {
+                        return decodeURIComponent(cookie.substring(10));
+                    }
+                }
+            }
+            
+            console.warn('CSRF token no encontrado');
+            return '';
+        }
+
+        async function cambiarEstado(vendedorId) {
+            try {
+                const response = await fetch(`/usuarios/cambiar-estado-vendedor/${vendedorId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCSRFToken(),
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.exito) {
+                    location.reload();
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        async function eliminarVendedor(vendedorId) {
+            const vendorItem = document.querySelector(`[data-vendor-id="${vendedorId}"]`).closest('.vendor-item');
+            const vendorName = vendorItem.querySelector('.vendor-name').textContent.trim();
+            
+            if (confirm(`¿Eliminar vendedor "${vendorName}"? Esta acción no se puede deshacer.`)) {
+                try {
+                    const response = await fetch(`/usuarios/eliminar-vendedor/${vendedorId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCSRFToken(),
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.exito) {
+                        alert(data.mensaje);
+                        location.reload();
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Event listeners para los botones
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botones de toggle de estado
+            document.querySelectorAll('.toggle-vendor-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const vendedorId = this.dataset.vendorId;
+                    cambiarEstado(vendedorId);
+                });
+            });
+
+            // Botones de eliminar
+            document.querySelectorAll('.delete-vendor-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const vendedorId = this.dataset.vendorId;
+                    eliminarVendedor(vendedorId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

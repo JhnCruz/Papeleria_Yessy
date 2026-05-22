@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimientos de Inventario - Papelería Yessy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .date-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .date-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border-radius: 60px;
+            border: 2px solid #ffe9d7;
+        }
+
+        .date-group i {
+            color: #bc9b8b;
+        }
+
+        .date-group input,
+        .date-group select {
+            border: none;
+            padding: 0.7rem 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            background: transparent;
+        }
+
+        .report-btn {
+            background: #e8a87c;
+            border: none;
+            border-radius: 60px;
+            padding: 0.7rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .report-btn:hover {
+            background: #e5987c;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 40px;
+            padding: 1.8rem;
+            border: 2px solid #ffe9d7;
+            transition: all 0.2s;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .report-card:hover {
+            border-color: #e8a87c;
+            transform: translateY(-3px);
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .report-header i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+
+        .report-header h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table tr {
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .report-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .report-table td, .report-table th {
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .report-table th {
+            font-weight: 600;
+            color: #4a4e69;
+            border-bottom: 2px solid #e8a87c;
+        }
+
+        .report-table .producto {
+            color: #4a4e69;
+            font-weight: 500;
+        }
+
+        .report-table .cantidad {
+            color: #e5987c;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.7rem 2rem;
+            background-color: white;
+            border: 2px solid #ffe9d7;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+        }
+
+        @media (max-width: 700px) {
+            .date-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <a href="{% url 'reportes:dashboard' %}" class="back-home"><i class="fas fa-arrow-left"></i> Volver</a>
+            <div class="store-badge"><i class="fas fa-store"></i> <span>Papelería Yessy</span></div>
+        </div>
+
+        <div class="page-title">
+            <i class="fas fa-exchange-alt"></i>
+            <h1>Movimientos de Inventario</h1>
+        </div>
+
+        <div class="date-selector">
+            <form method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; width: 100%; align-items: center;">
+                <div class="date-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
+                </div>
+                <div class="date-group">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
+                </div>
+                <div class="date-group">
+                    <i class="fas fa-filter"></i>
+                    <select name="tipo_movimiento">
+                        <option value="">-- Todos --</option>
+                        <option value="venta" {% if tipo_movimiento == 'venta' %}selected{% endif %}>Venta</option>
+                        <option value="entrada" {% if tipo_movimiento == 'entrada' %}selected{% endif %}>Entrada de Stock</option>
+                        <option value="ajuste" {% if tipo_movimiento == 'ajuste' %}selected{% endif %}>Ajuste Manual</option>
+                        <option value="cancelacion" {% if tipo_movimiento == 'cancelacion' %}selected{% endif %}>Cancelación</option>
+                        <option value="devolucion" {% if tipo_movimiento == 'devolucion' %}selected{% endif %}>Devolución</option>
+                    </select>
+                </div>
+                <button type="submit" class="report-btn"><i class="fas fa-search"></i> Filtrar</button>
+            </form>
+        </div>
+
+        <div class="report-card">
+            <div class="report-header">
+                <i class="fas fa-book"></i>
+                <h3>Detalle de Movimientos</h3>
+            </div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Referencia</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dato in reporte %}
+                    <tr>
+                        <td>{{ dato.fecha }}</td>
+                        <td class="producto">{{ dato.producto }}</td>
+                        <td>{{ dato.sku }}</td>
+                        <td>
+                            {% if dato.tipo == 'Venta' %}
+                                <span style="background: #ffcccc; color: #d32f2f; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">{{ dato.tipo }}</span>
+                            {% elif dato.tipo == 'Entrada de Stock' %}
+                                <span style="background: #ccf2dd; color: #1b5e20; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">{{ dato.tipo }}</span>
+                            {% elif dato.tipo == 'Ajuste Manual' %}
+                                <span style="background: #ffe0b2; color: #e65100; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">{{ dato.tipo }}</span>
+                            {% elif dato.tipo == 'Cancelación de Venta' %}
+                                <span style="background: #c2d9f6; color: #0d47a1; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">{{ dato.tipo }}</span>
+                            {% elif dato.tipo == 'Devolución' %}
+                                <span style="background: #d1c4e9; color: #512da8; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">{{ dato.tipo }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="cantidad">
+                            {% if dato.cantidad > 0 %}
+                                <span style="color: #2d6a4f;">+{{ dato.cantidad }}</span>
+                            {% else %}
+                                <span style="color: #c62828;">{{ dato.cantidad }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ dato.referencia|default:'--' }}</td>
+                        <td>{{ dato.usuario }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #bc9b8b;">No hay movimientos en este período</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'reportes:dashboard' %}" class="back-link"><i class="fas fa-arrow-left"></i> Volver a Reportes</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+/**
+ * Papelería Yessy · Animaciones y Transiciones UI
+ * Mejoras visuales para mejor experiencia de usuario
+ */
+
+/* ==================
+   Animaciones Globales
+   ================== */
+
+/* Fade-in en la carga de página */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse suave */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Spin para loading */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scale pop para modales */
+@keyframes scalePop {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Slide from left */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Slide from right */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Bounce suave */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ==================
+   Aplicaciones de Animaciones
+   ================== */
+
+/* Fade-in en elementos principales */
+.main-container,
+.container,
+.page-content {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Transiciones suaves en inputs y botones */
+button,
+input,
+select,
+textarea,
+a {
+    transition: all 0.3s ease;
+}
+
+/* Hover en botones */
+button:hover:not(:disabled),
+.btn:hover:not(:disabled),
+a.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Botones presionados */
+button:active:not(:disabled),
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Focus en inputs */
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: 0 0 8px rgba(232, 168, 124, 0.4);
+    transform: scale(1.01);
+}
+
+/* ==================
+   Modales y Diálogos
+   ================== */
+
+/* Modal fade-in */
+.modal,
+.modal-dialog,
+[role="dialog"] {
+    animation: scalePop 0.3s ease-out;
+}
+
+/* Overlay del modal */
+.modal-backdrop,
+.overlay {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ==================
+   Tablas y Contenido
+   ================== */
+
+/* Filas de tabla con hover */
+table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+table tbody tr:hover {
+    background-color: rgba(232, 168, 124, 0.1);
+}
+
+/* ==================
+   Indicadores y Badges
+   ================== */
+
+/* Badge pulse */
+.badge,
+.badge-new,
+[role="status"] {
+    animation: pulse 2s infinite;
+}
+
+/* Badge success */
+.badge-success {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================
+   Notificaciones y Mensajes
+   ================== */
+
+/* Mensaje fade-in */
+.message,
+.alert,
+.notification,
+.toast {
+    animation: slideInRight 0.4s ease-out;
+}
+
+/* Mensaje error shake */
+.message-error,
+.alert-danger {
+    animation: slideInRight 0.4s ease-out;
+}
+
+/* ==================
+   Formularios
+   ================== */
+
+/* Form group fade-in escalonado */
+.form-group {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.05s; }
+.form-group:nth-child(2) { animation-delay: 0.1s; }
+.form-group:nth-child(3) { animation-delay: 0.15s; }
+.form-group:nth-child(4) { animation-delay: 0.2s; }
+.form-group:nth-child(5) { animation-delay: 0.25s; }
+
+/* ==================
+   Loading States
+   ================== */
+
+/* Spinner de carga */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(232, 168, 124, 0.2);
+    border-top-color: #e8a87c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Loading pulse */
+.loading {
+    opacity: 0.6;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ==================
+   Transiciones de Página
+   ================== */
+
+/* Cards con hover lift */
+.card,
+.card-like,
+.report-card,
+.summary-card {
+    transition: all 0.3s ease;
+}
+
+.card:hover,
+.card-like:hover,
+.report-card:hover,
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================
+   Transiciones de Navegación
+   ================== */
+
+/* Link hover */
+a {
+    transition: color 0.2s ease;
+}
+
+a:hover:not(.btn) {
+    color: #e8a87c;
+}
+
+/* ==================
+   Animaciones de Lista
+   ================== */
+
+/* Items de lista con fade-in escalonado */
+li,
+.list-item,
+.item {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================
+   Colores con transición
+   ================== */
+
+/* Transición de fondo */
+[class*="bg-"]:not(.bg-static) {
+    transition: background-color 0.3s ease;
+}
+
+/* Transición de texto */
+[class*="text-"]:not(.text-static) {
+    transition: color 0.3s ease;
+}
+
+/* ==================
+   Efectos Especiales
+   ================== */
+
+/* Brillo para highlight */
+.highlight,
+.attention {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce suave para importante */
+.important,
+.urgent {
+    animation: bounce 0.6s ease-in-out;
+}
+
+/* ==================
+   Responsive y Performance
+   ================== */
+
+/* Reducir animaciones si se solicita */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==================
+   Print Styles
+   ================== */
+
+@media print {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

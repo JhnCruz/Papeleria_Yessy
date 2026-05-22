@@ -1,0 +1,639 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block titulo %}Gestionar Productos | Papelería Yessy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .admin-container {
+        padding: 2rem 1rem;
+        background-color: #faf7f2;
+    }
+
+    .admin-content-wrapper {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .options-page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .option-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .option-card:hover {
+        border-color: #e8a87c;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(232, 168, 124, 0.15);
+    }
+
+    .option-card-icon {
+        font-size: 3.5rem;
+        color: #e8a87c;
+        margin-bottom: 1rem;
+        background: #fdf0e0;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .option-card h3 {
+        font-size: 1.3rem;
+        color: #2d3e50;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .option-card p {
+        color: #888;
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .form-wrapper {
+        display: none;
+    }
+
+    .form-wrapper.active {
+        display: block;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 2px solid #ffe9d7;
+    }
+
+    .form-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #ffe9d7;
+    }
+
+    .form-header i {
+        font-size: 2.5rem;
+        color: #e8a87c;
+        background: #fdf0e0;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-header h2 {
+        font-size: 1.5rem;
+        color: #2d3e50;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: #2d3e50;
+        margin-bottom: 0.7rem;
+        font-size: 0.95rem;
+    }
+
+    .form-group label i {
+        color: #e8a87c;
+        font-size: 0.9rem;
+        width: 18px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.85rem 1.2rem;
+        border: 2px solid #ffe9d7;
+        border-radius: 50px;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1rem;
+        background-color: #f8f4f0;
+        color: #2d3e50;
+        transition: all 0.3s;
+    }
+
+    .form-group textarea {
+        border-radius: 15px;
+        resize: vertical;
+        min-height: 100px;
+        padding: 1rem 1.2rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #e8a87c;
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(232, 168, 124, 0.1);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .form-hint {
+        font-size: 0.85rem;
+        color: #888;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .form-hint i {
+        color: #d4956f;
+        font-size: 0.75rem;
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, #fdf0e0 0%, #fff6ed 100%);
+        border-left: 4px solid #e8a87c;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: #6b705c;
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-start;
+    }
+
+    .info-box i {
+        color: #e8a87c;
+        margin-top: 0.1rem;
+        flex-shrink: 0;
+    }
+
+    .stock-info-display {
+        background: #f8f4f0;
+        border-radius: 15px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        display: none;
+    }
+
+    .stock-info-display.show {
+        display: block;
+    }
+
+    .stock-info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #ffe9d7;
+    }
+
+    .stock-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .stock-info-label {
+        font-weight: 600;
+        color: #2d3e50;
+        font-size: 0.95rem;
+    }
+
+    .stock-info-value {
+        color: #e8a87c;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 50px;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(232, 168, 124, 0.25);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(232, 168, 124, 0.35);
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #2d3e50;
+        border: 2px solid #ffe9d7;
+    }
+
+    .btn-secondary:hover {
+        background: white;
+        border-color: #e8a87c;
+        color: #e8a87c;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #c9e4de 0%, #a8d5c9 100%);
+        color: #2d6a4f;
+        box-shadow: 0 4px 12px rgba(201, 228, 222, 0.25);
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(201, 228, 222, 0.35);
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-button {
+        flex: 1;
+        padding: 1rem;
+        background: white;
+        border: 2px solid #ffe9d7;
+        border-radius: 15px;
+        color: #9d6b53;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .nav-button:hover {
+        border-color: #e8a87c;
+        color: #e8a87c;
+        background: #faf7f2;
+    }
+
+    .nav-button.active {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        border-color: #e8a87c;
+        color: white;
+    }
+
+    @media (max-width: 600px) {
+        .form-card {
+            padding: 1.5rem;
+        }
+
+        .options-page {
+            grid-template-columns: 1fr;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn {
+            min-width: auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="admin-content-wrapper">
+    <!-- Página inicial de opciones -->
+    <div id="options-page" class="form-wrapper active">
+        <h2 style="text-align: center; color: #2d3e50; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 600;">
+            ¿Qué deseas hacer?
+        </h2>
+
+        <div class="options-page">
+            <button type="button" class="option-card" onclick="showForm('nuevo')">
+                <div class="option-card-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <h3>Crear Nuevo</h3>
+                <p>Agregar un producto completamente nuevo al inventario</p>
+            </button>
+
+            <button type="button" class="option-card" onclick="showForm('existente')">
+                <div class="option-card-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>Reabastecimiento</h3>
+                <p>Agregar stock a un producto que ya existe</p>
+            </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'productos:admin_productos' %}" class="btn btn-secondary" style="display: inline-flex; min-width: 200px;">
+                <i class="fas fa-arrow-left"></i> Volver al Panel
+            </a>
+        </div>
+    </div>
+
+    <!-- Formulario Crear Nuevo -->
+    <div id="form-nuevo" class="form-wrapper">
+        <div class="form-card">
+            <div class="nav-buttons" style="margin-bottom: 1.5rem;">
+                <button type="button" class="nav-button active" onclick="switchForm('nuevo')">
+                    <i class="fas fa-plus"></i> Crear Nuevo
+                </button>
+                <button type="button" class="nav-button" onclick="switchForm('existente')">
+                    <i class="fas fa-box"></i> Reabastecimiento
+                </button>
+            </div>
+
+            <div class="form-header">
+                <i class="fas fa-sparkles"></i>
+                <h2>Crear Producto Nuevo</h2>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <span>Crea un nuevo producto con código SKU único. Cada producto debe tener un identificador diferente.</span>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="modo" value="nuevo">
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-barcode"></i>
+                        Código SKU*
+                    </label>
+                    <input type="text" name="sku" placeholder="Ej: LAPIZ-001" required>
+                    <div class="form-hint">
+                        <i class="fas fa-lightbulb"></i>
+                        Código único que identifica este producto
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-tag"></i>
+                        Nombre del Producto*
+                    </label>
+                    <input type="text" name="nombre" placeholder="Ej: Lápiz HB #2" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-align-left"></i>
+                        Descripción
+                    </label>
+                    <textarea name="descripcion" placeholder="Opcional: detalles adicionales del producto"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-folder"></i>
+                        Categoría*
+                    </label>
+                    <select name="categoria" required>
+                        <option value="">-- Selecciona una categoría --</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-coins"></i>
+                            Precio por Pieza*
+                        </label>
+                        <input type="number" name="precio_pieza" placeholder="0.00" step="0.01" min="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-shopping-bag"></i>
+                            Precio por Paquete
+                        </label>
+                        <input type="number" name="precio_paquete" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-cube"></i>
+                        Cantidad por Paquete
+                    </label>
+                    <input type="number" name="cantidad_paquete" value="1" min="1">
+                    <div class="form-hint">
+                        <i class="fas fa-lightbulb"></i>
+                        Cuántas piezas contiene cada paquete
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-inventory"></i>
+                            Stock Inicial*
+                        </label>
+                        <input type="number" name="stock_actual" value="0" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Stock Mínimo
+                        </label>
+                        <input type="number" name="stock_minimo" value="5" min="0">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Crear Producto
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Atrás
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Formulario Reutilizar Existente -->
+    <div id="form-existente" class="form-wrapper">
+        <div class="form-card">
+            <div class="nav-buttons" style="margin-bottom: 1.5rem;">
+                <button type="button" class="nav-button" onclick="switchForm('nuevo')">
+                    <i class="fas fa-plus"></i> Crear Nuevo
+                </button>
+                <button type="button" class="nav-button active" onclick="switchForm('existente')">
+                    <i class="fas fa-box"></i> Reabastecimiento
+                </button>
+            </div>
+
+            <div class="form-header">
+                <i class="fas fa-refresh"></i>
+                <h2>Reabastecimiento</h2>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <span>Selecciona un producto existente y agrega más stock al inventario.</span>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="modo" value="existente">
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-search"></i>
+                        Selecciona Producto*
+                    </label>
+                    <select name="producto_existente" id="producto_existente" required onchange="actualizarInfoProducto()">
+                        <option value="">-- Selecciona un producto --</option>
+                        {% for prod in productos_existentes %}
+                        <option value="{{ prod.id }}" data-stock="{{ prod.stock_actual }}" data-minimo="{{ prod.stock_minimo }}">
+                            {{ prod.nombre }} (SKU: {{ prod.sku }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div id="stock-info-display" class="stock-info-display">
+                    <div class="stock-info-row">
+                        <span class="stock-info-label">
+                            <i class="fas fa-home" style="color: #e8a87c; margin-right: 0.5rem;"></i>
+                            Stock Actual
+                        </span>
+                        <span class="stock-info-value" id="stock-actual-value">-</span>
+                    </div>
+                    <div class="stock-info-row">
+                        <span class="stock-info-label">
+                            <i class="fas fa-alert-circle" style="color: #d4956f; margin-right: 0.5rem;"></i>
+                            Stock Mínimo
+                        </span>
+                        <span class="stock-info-value" id="stock-minimo-value">-</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-plus-circle"></i>
+                        Cantidad a Agregar*
+                    </label>
+                    <input type="number" name="stock_agregar" id="stock_agregar" placeholder="Ej: 50" min="1" required>
+                    <div class="form-hint">
+                        <i class="fas fa-lightbulb"></i>
+                        Cuántas unidades deseas agregar al stock actual
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Agregar Stock
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Atrás
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function showForm(tipo) {
+    document.getElementById('options-page').classList.remove('active');
+    document.getElementById('form-' + tipo).classList.add('active');
+}
+
+function switchForm(tipo) {
+    document.getElementById('form-nuevo').classList.remove('active');
+    document.getElementById('form-existente').classList.remove('active');
+    document.getElementById('form-' + tipo).classList.add('active');
+
+    document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.nav-button').classList.add('active');
+}
+
+function goBack() {
+    document.getElementById('form-nuevo').classList.remove('active');
+    document.getElementById('form-existente').classList.remove('active');
+    document.getElementById('options-page').classList.add('active');
+}
+
+function actualizarInfoProducto() {
+    const select = document.getElementById('producto_existente');
+    const option = select.options[select.selectedIndex];
+    const infoBox = document.getElementById('stock-info-display');
+
+    if (option.value) {
+        document.getElementById('stock-actual-value').textContent = option.dataset.stock + ' unidades';
+        document.getElementById('stock-minimo-value').textContent = option.dataset.minimo + ' unidades';
+        infoBox.classList.add('show');
+    } else {
+        infoBox.classList.remove('show');
+    }
+}
+</script>
+{% endblock %}

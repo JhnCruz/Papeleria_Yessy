@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Listar Productos - Papelería Yessy{% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <h2><i class="fas fa-box"></i> Productos</h2>
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <a href="{% url 'productos:bajo_stock' %}" class="btn btn-warning">
+                <i class="fas fa-exclamation-circle"></i> Productos con Stock Bajo
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Listado de Productos Activos</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>SKU</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio Pieza</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td><strong>{{ producto.sku }}</strong></td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.categoria.nombre }}</td>
+                        <td>${{ producto.precio_pieza }}</td>
+                        <td>
+                            <span class="badge {% if producto.bajo_stock %}bg-danger{% else %}bg-success{% endif %}">
+                                {{ producto.stock_actual }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if producto.bajo_stock %}
+                                <span class="badge bg-warning">Bajo Stock</span>
+                            {% else %}
+                                <span class="badge bg-success">Normal</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">No hay productos</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

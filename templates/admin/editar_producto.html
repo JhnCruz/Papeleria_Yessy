@@ -1,0 +1,232 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block titulo %}Editar Producto | Papelería Yessy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-header {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .form-header h1 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .form-header p {
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #2d3e50;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e5e5e5;
+        border-radius: 6px;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #e8a87c;
+        box-shadow: 0 0 0 3px rgba(232, 168, 124, 0.1);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .btn-guardar {
+        background: linear-gradient(135deg, #c9e4de 0%, #a8d5c9 100%);
+        color: #2d6a4f;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .btn-guardar:hover {
+        background: linear-gradient(135deg, #9eccbf 0%, #7fc4af 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(201, 228, 222, 0.3);
+        color: #2d6a4f;
+    }
+
+    .btn-volver {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .btn-volver:hover {
+        background: linear-gradient(135deg, #d4956f 0%, #c1845e 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(232, 168, 124, 0.3);
+        color: white;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .checkbox-group input {
+        width: auto;
+        margin: 0;
+    }
+
+    .sku-info {
+        background-color: #f5f5f5;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.3rem;
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h1 style="color: #e8a87c; font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 600;">
+        ✏️ Editar Producto
+    </h1>
+    <p style="color: #888; margin-bottom: 1.5rem;">{{ producto.nombre }}</p>
+
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- SKU -->
+            <div class="form-group">
+                <label for="sku">SKU (Código)*</label>
+                <input type="text" name="sku" id="sku" value="{{ producto.sku }}" required>
+                <div class="sku-info">Este código identifica de forma única el producto</div>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label for="nombre">Nombre del Producto*</label>
+                <input type="text" name="nombre" id="nombre" value="{{ producto.nombre }}" required>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea name="descripcion" id="descripcion" rows="3">{{ producto.descripcion }}</textarea>
+            </div>
+
+            <!-- Categoría -->
+            <div class="form-group">
+                <label for="categoria">Categoría*</label>
+                <select name="categoria" id="categoria" required>
+                    <option value="">Selecciona una categoría</option>
+                    {% for cat in categorias %}
+                    <option value="{{ cat.id }}" {% if cat.id == producto.categoria.id %}selected{% endif %}>
+                        {{ cat.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Precios -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="precio_pieza">Precio por Pieza*</label>
+                    <input type="number" name="precio_pieza" id="precio_pieza" value="{{ producto.precio_pieza }}" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="precio_paquete">Precio por Paquete</label>
+                    <input type="number" name="precio_paquete" id="precio_paquete" value="{{ producto.precio_paquete|default:'' }}" step="0.01">
+                </div>
+            </div>
+
+            <!-- Cantidad por Paquete -->
+            <div class="form-group">
+                <label for="cantidad_paquete">Cantidad por Paquete</label>
+                <input type="number" name="cantidad_paquete" id="cantidad_paquete" value="{{ producto.cantidad_paquete }}" min="1">
+            </div>
+
+            <!-- Stock -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="stock_actual">Stock Actual*</label>
+                    <input type="number" name="stock_actual" id="stock_actual" value="{{ producto.stock_actual }}" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock_minimo">Stock Mínimo</label>
+                    <input type="number" name="stock_minimo" id="stock_minimo" value="{{ producto.stock_minimo }}" min="0">
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="form-group">
+                <label>Estado del Producto</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" name="activo" id="activo" {% if producto.activo %}checked{% endif %}>
+                    <label for="activo" style="margin: 0; font-weight: normal;">Activo (disponible para venta)</label>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <button type="submit" class="btn-guardar">
+                <i class="fas fa-save"></i> Guardar Cambios
+            </button>
+
+            <a href="{% url 'productos:admin_productos' %}" class="btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver al Panel
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

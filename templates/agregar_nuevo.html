@@ -1,0 +1,1138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Agregar Producto</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado con navegación */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Tarjeta principal del formulario */
+        .form-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin: 1rem 0 2rem;
+        }
+
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .form-title i {
+            font-size: 2.2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .form-title h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Grid del formulario */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #6b705c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            color: #e8a87c;
+            width: 20px;
+        }
+
+        .form-group input {
+            padding: 1rem 1.2rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            background: #f8f4f0;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .form-group input[type="number"] {
+            appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            appearance: none;
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: #bc9b8b;
+            margin-top: 0.3rem;
+        }
+        /* Estilos para select */
+        .form-group select {
+            padding: 1rem 1.2rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            background: #f8f4f0;
+            transition: all 0.2s;
+            color: #2d3e50;
+            cursor: pointer;
+        }
+
+        .form-group select:focus {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .form-group select option {
+            color: #2d3e50;
+            background: white;
+        }
+        /* Ayuda visual para SKU */
+        .sku-helper {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #fdf0e0;
+            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            margin-top: 0.5rem;
+            color: #9d6b53;
+            font-size: 0.9rem;
+        }
+
+        .sku-helper i {
+            color: #e8a87c;
+        }
+
+        .sku-helper .scanner-badge {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        /* Sección de paquete */
+        .package-section {
+            background: #f8f4f0;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin: 0.5rem 0;
+            grid-column: span 2;
+        }
+
+        .package-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .package-header input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #e8a87c;
+            cursor: pointer;
+        }
+
+        .package-header label {
+            font-weight: 600;
+            color: #6b705c;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .package-header i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        /* Grid de opciones de paquete (inicialmente oculto) */
+        .pack-options {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .pack-options.show {
+            display: grid;
+        }
+
+        .pack-options .form-group {
+            margin: 0;
+        }
+
+        /* Mensaje informativo */
+        .info-message {
+            background: #e8f0fe;
+            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            color: #2d6a4f;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            grid-column: span 2;
+        }
+
+        .info-message i {
+            color: #e8a87c;
+        }
+
+        /* Acciones del formulario */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #f0d9cc;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .btn-primary {
+            background: #e8a87c;
+            color: white;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            background: #e5987c;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -10px #e8a87c;
+        }
+
+        .btn-secondary {
+            background: #f8f4f0;
+            color: #7f7b82;
+            border: 2px solid #ffe9d7;
+        }
+
+        .btn-secondary:hover {
+            background: #ffe5d9;
+            color: #9d6b53;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Modal de confirmación */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fffbf8 0%, #fff5ed 100%);
+            border-radius: 45px;
+            padding: 0;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+            animation: modalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 9999;
+            border: 2px solid rgba(232, 168, 124, 0.2);
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid #ffe9d7;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 0.8rem;
+            border-radius: 30px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-header h3 {
+            color: #4a4e69;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-body {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f4f0;
+            border-radius: 30px;
+            color: #6b705c;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .modal-body p {
+            margin: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            background: #f8f4f0;
+            color: #7f7b82;
+            border: 2px solid #ffe9d7;
+            padding: 0.8rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-cancel:hover {
+            background: #ffe5d9;
+            color: #9d6b53;
+        }
+
+        .btn-confirm {
+            background: #e8a87c;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-confirm:hover {
+            background: #e5987c;
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px -8px #e8a87c;
+        }
+
+        /* Botón para agregar categoría */
+        .btn-add-cat {
+            background: #a8d5c9;
+            color: #2d6a4f;
+            border: none;
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(168, 213, 201, 0.3);
+        }
+
+        .btn-add-cat:hover {
+            background: #98d1c5;
+            transform: scale(1.08);
+            box-shadow: 0 6px 16px rgba(168, 213, 201, 0.4);
+        }
+
+        .btn-add-cat:active {
+            transform: scale(0.96);
+        }
+
+        /* Sección expandible para agregar categoría */
+        .add-category-section {
+            background: transparent;
+            border: none;
+            border-radius: 45px;
+            padding: 0;
+            margin-top: 0;
+            animation: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+                transform: translateY(0);
+            }
+        }
+
+        .add-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+            background: linear-gradient(135deg, #fdf0e0 0%, #fdf5ed 100%);
+            border-bottom: 1px solid rgba(232, 168, 124, 0.15);
+            border-radius: 45px 45px 0 0;
+        }
+
+        .add-category-header h4 {
+            font-size: 1.6rem;
+            color: #4a4e69;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 700;
+        }
+
+        .add-category-header i {
+            color: #e8a87c;
+            font-size: 1.8rem;
+            background: rgba(232, 168, 124, 0.1);
+            padding: 0.6rem;
+            border-radius: 12px;
+        }
+
+        .close-btn {
+            background: rgba(232, 168, 124, 0.1);
+            border: none;
+            color: #e8a87c;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+            background: #e8a87c;
+            transform: rotate(90deg);
+            box-shadow: 0 4px 12px rgba(232, 168, 124, 0.3);
+        }
+
+        .add-category-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 0 0 45px 45px;
+        }
+
+        .add-category-form .form-group {
+            margin: 0;
+        }
+
+        .add-category-form label {
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+
+        .add-category-form input {
+            width: 100%;
+            padding: 0.9rem 1.3rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .add-category-form input:focus {
+            outline: none;
+            border-color: #e8a87c;
+            background: #fffbf8;
+            box-shadow: 0 0 0 3px rgba(232, 168, 124, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .add-category-form input::placeholder {
+            color: #b8bcc8;
+        }
+
+        #categoryMessage {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        #categoryMessage.success {
+            display: block;
+            background: #c9e4de;
+            color: #2d6a4f;
+        }
+
+        #categoryMessage.error {
+            display: block;
+            background: #fde4e4;
+            color: #8b3a3a;
+        }
+
+        .add-category-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(232, 168, 124, 0.15);
+        }
+
+        .add-category-buttons button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn-cancel {
+            background: #f0e8e0;
+            color: #9d6b53;
+            border: 1.5px solid #ffe9d7;
+        }
+
+        .btn-cancel:hover {
+            background: #e8dfd5;
+            color: #8b5a3f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(232, 168, 124, 0.15);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #e8a87c 0%, #d99860 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 168, 124, 0.4);
+        }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #d99860 0%, #ca8f52 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(232, 168, 124, 0.5);
+        }
+
+        .btn-save:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        
+.pack-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .header {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver al inicio</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Tarjeta de formulario -->
+        <div class="form-card">
+            <div class="form-title">
+                <i class="fas fa-box"></i>
+                <h2>Agregar producto nuevo</h2>
+            </div>
+
+            <!-- Formulario -->
+            <form id="productForm" onsubmit="event.preventDefault(); saveProduct();">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <!-- SKU (Código de barras) -->
+                    <div class="form-group full-width">
+                        <label>
+                            <i class="fas fa-barcode"></i>
+                            Código SKU *
+                        </label>
+                        <input type="text" id="sku" placeholder="Escanea o escribe el código de barras" required>
+                        <div class="sku-helper">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Puedes usar el escáner o escribirlo manualmente</span>
+                            <span class="scanner-badge"><i class="fas fa-camera"></i> Escáner listo</span>
+                        </div>
+                    </div>
+
+                    <!-- Nombre del producto -->
+                    <div class="form-group full-width">
+                        <label>
+                            <i class="fas fa-tag"></i>
+                            Nombre del producto *
+                        </label>
+                        <input type="text" id="name" placeholder="Ej: Cuaderno Profesional, Bolígrafo Azul, etc." required>
+                    </div>
+
+                    <!-- Stock inicial -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-boxes"></i>
+                            Stock inicial (unidades) *
+                        </label>
+                        <input type="number" id="stock" min="0" value="0" required>
+                    </div>
+
+                    <!-- Precio por unidad -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-cube"></i>
+                            Precio por unidad $ *
+                        </label>
+                        <input type="number" id="priceUnit" min="0" step="0.50" placeholder="0.00" required>
+                    </div>
+
+                    <!-- Stock mínimo de alerta -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-bell"></i>
+                            Stock mínimo de alerta (unidades) *
+                        </label>
+                        <input type="number" id="stockMinimo" min="0" placeholder="Ej: 5" required>
+                        <small style="color: #7f7b82; margin-top: 0.3rem; display: block;">⚠️ Valor crítico: Se mostrará alerta cuando stock caiga por debajo de este número</small>
+                    </div>
+
+                    <!-- Categoría -->
+                    <div class="form-group">
+                        <div style="display: flex; align-items: flex-end; gap: 0.8rem;">
+                            <div style="flex: 1;">
+                                <label>
+                                    <i class="fas fa-folder"></i>
+                                    Categoría *
+                                </label>
+                                <select id="categoria" required>
+                                    <option value="">-- Seleccionar categoría --</option>
+                                    {% for cat in categorias %}
+                                    <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="button" class="btn-add-cat" onclick="toggleAddCategoryForm()" title="Agregar nueva categoría">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal overlay para agregar categoría -->
+                    <div id="categoryModalOverlay" class="modal-overlay" onclick="closeCategoryModal(event)">
+                        <div class="modal-content add-category-section" id="addCategorySection">
+                            <div class="add-category-header">
+                                <h4><i class="fas fa-folder-plus"></i> Nueva Categoría</h4>
+                                <button type="button" class="close-btn" onclick="toggleAddCategoryForm()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="add-category-form">
+                                <div class="form-group">
+                                    <label>Nombre *</label>
+                                    <input type="text" id="newCategoryName" placeholder="Ej: Cuadernos, Bolígrafos..." autocomplete="off">
+                                </div>
+                                <div id="categoryMessage"></div>
+                                <div class="add-category-buttons">
+                                    <button type="button" class="btn-cancel" onclick="toggleAddCategoryForm()">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
+                                    <button type="button" class="btn-save" id="saveCategoryBtn" onclick="saveNewCategory()">
+                                        <i class="fas fa-check"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN DE PAQUETE (mejorada) -->
+                    <div class="package-section">
+                        <div class="package-header">
+                            <input type="checkbox" id="sellsByPack" onchange="togglePackOptions()">
+                            <i class="fas fa-cubes"></i>
+                            <label for="sellsByPack">Este producto se vende por paquete</label>
+                        </div>
+
+                        <!-- Opciones de paquete (visible solo si está marcado) -->
+                        <div class="pack-options" id="packOptions">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-cubes"></i>
+                                    Cantidad por paquete *
+                                </label>
+                                <input type="number" id="packQuantity" min="2" value="6" placeholder="Ej: 6, 12, 24">
+                                <div class="input-hint">¿Cuántas piezas trae cada paquete?</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-tag"></i>
+                                    Precio del paquete $ *
+                                </label>
+                                <input type="number" id="pricePack" min="0" step="0.50" placeholder="0.00">
+                                <div class="input-hint">Precio de venta del paquete completo</div>
+                            </div>
+
+                            <!-- Mensaje informativo sobre el stock -->
+                            <div class="info-message">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Al vender 1 paquete se restarán <span id="packQuantityPreview">6</span> unidades del stock</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                        <i class="fas fa-eraser"></i>
+                        Limpiar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Guardar producto
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal de confirmación para limpiar -->
+        <div id="clearConfirmModal" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>¿Limpiar formulario?</h3>
+                </div>
+
+                <div class="modal-body">
+                    <p>¿Seguro que quieres limpiar todos los campos? <span style="font-weight: 600;">Esta acción no se puede deshacer.</span></p>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" onclick="cancelClear()">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-confirm" onclick="confirmClear()">
+                        <i class="fas fa-check"></i>
+                        Sí, limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cierre del modal overlay -->
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart" style="color: #f8acb4;"></i> 
+                Papelería Yessy · Agregar productos
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+                <span><i class="fas fa-shield"></i> Inventario seguro</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para funcionalidad -->
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/agregar_nuevo.js' %}"></script>
+
+    <!-- Script para crear categoría expandible -->
+    <script>
+        function getCSRFToken() {
+            // Método 1: Buscar en el formulario por nombre csrfmiddlewaretoken (Django estándar)
+            let token = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            if (token) {
+                return token.value;
+            }
+            
+            // Método 2: Buscar por nombre csrftoken
+            token = document.querySelector('input[name="csrftoken"]');
+            if (token) {
+                return token.value;
+            }
+            
+            // Método 3: Buscar en metaTag
+            token = document.querySelector('meta[name="csrf-token"]');
+            if (token) {
+                return token.getAttribute('content');
+            }
+            
+            // Método 4: Buscar en cookies
+            const name = 'csrftoken';
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        return decodeURIComponent(cookie.substring(name.length + 1));
+                    }
+                }
+            }
+            
+            console.warn('⚠️  Token CSRF no encontrado');
+            return '';
+        }
+        
+        function getCookie(name) {
+            if (name === 'csrftoken') {
+                return getCSRFToken();
+            }
+            
+            // Para otras cookies
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function toggleAddCategoryForm() {
+            const modal = document.getElementById('categoryModalOverlay');
+            modal.classList.toggle('show');
+            
+            if (modal.classList.contains('show')) {
+                document.getElementById('newCategoryName').focus();
+            } else {
+                // Limpiar formulario
+                document.getElementById('newCategoryName').value = '';
+                document.getElementById('categoryMessage').innerHTML = '';
+                document.getElementById('categoryMessage').className = '';
+            }
+        }
+
+        function closeCategoryModal(event) {
+            // Si hace click en el overlay (no en el contenido), cierra
+            if (event.target.id === 'categoryModalOverlay') {
+                toggleAddCategoryForm();
+            }
+        }
+
+        async function saveNewCategory() {
+            const nombre = document.getElementById('newCategoryName').value.trim();
+            const saveBtn = document.getElementById('saveCategoryBtn');
+            const msgDiv = document.getElementById('categoryMessage');
+
+            if (!nombre) {
+                msgDiv.innerHTML = '❌ El nombre de la categoría es obligatorio';
+                msgDiv.className = 'error';
+                return;
+            }
+
+            saveBtn.disabled = true;
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+            try {
+                const response = await fetch('/productos/crear-categoria/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.exito) {
+                    const select = document.getElementById('categoria');
+                    const option = document.createElement('option');
+                    option.value = data.categoria_id;
+                    option.textContent = data.categoria_nombre;
+                    select.appendChild(option);
+                    select.value = data.categoria_id;
+
+                    msgDiv.innerHTML = `✅ ${data.mensaje}`;
+                    msgDiv.className = 'success';
+
+                    setTimeout(() => {
+                        toggleAddCategoryForm();
+                    }, 1500);
+                } else {
+                    msgDiv.innerHTML = `❌ ${data.error}`;
+                    msgDiv.className = 'error';
+                }
+            } catch (error) {
+                msgDiv.innerHTML = `❌ Error: ${error.message}`;
+                msgDiv.className = 'error';
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+            }
+        }
+
+        // Permitir guardar con Enter
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('newCategoryName').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveNewCategory();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

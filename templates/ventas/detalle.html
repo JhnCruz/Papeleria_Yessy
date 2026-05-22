@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Detalle de Venta</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Título */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Tarjeta de información */
+        .info-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: #7f7b82;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #4a4e69;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .info-value.folio {
+            color: #e8a87c;
+            font-size: 1.5rem;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .badge-efectivo {
+            background: #c9e4de;
+            color: #2d6a4f;
+        }
+
+        .badge-transferencia {
+            background: #fdf0e0;
+            color: #e5987c;
+        }
+
+        .total-section {
+            border-top: 2px solid #ffe9d7;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-text {
+            color: #7f7b82;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .total-value {
+            color: #2d6a4f;
+            font-size: 2rem;
+            font-weight: 700;
+            background: #c9e4de;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+        }
+
+        /* Tabla de detalles */
+        .details-table {
+            background: white;
+            border-radius: 40px;
+            padding: 1.5rem;
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a4e69;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .table-title i {
+            color: #e8a87c;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 1rem;
+            background: #fdf0e0;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #6b705c;
+            margin-bottom: 0.5rem;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 1rem;
+            border-bottom: 1px solid #ffe9d7;
+            align-items: center;
+        }
+
+        .table-row:hover {
+            background: #f8f4f0;
+            border-radius: 30px;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .product-sku {
+            font-size: 0.85rem;
+            color: #7f7b82;
+        }
+
+        .quantity-cell {
+            text-align: center;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .price-cell {
+            text-align: right;
+            color: #4a4e69;
+        }
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e5987c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #7f7b82;
+            border: 2px solid #ffe9d7;
+        }
+
+        .btn-secondary:hover {
+            background: #fdf0e0;
+            color: #9d6b53;
+            border-color: #e8a87c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f7b82;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #e8a87c;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 700px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .table-header, .table-row {
+                grid-template-columns: 1.5fr 1fr 1fr;
+            }
+
+            .table-header .hide-mobile,
+            .table-row .hide-mobile {
+                display: none;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'ventas:resumen' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-receipt"></i>
+            <h1>Detalle de Venta</h1>
+        </div>
+
+        <!-- Información de la venta -->
+        <div class="info-card">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Folio</span>
+                    <span class="info-value folio">V{{ venta.id|stringformat:"03d" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Fecha</span>
+                    <span class="info-value">{{ venta.fecha_venta|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Método de Pago</span>
+                    <span class="payment-badge {% if venta.metodo_pago == 'efectivo' %}badge-efectivo{% else %}badge-transferencia{% endif %}">
+                        <i class="fas {% if venta.metodo_pago == 'efectivo' %}fa-money-bill-wave{% else %}fa-mobile-alt{% endif %}"></i>
+                        {{ venta.get_metodo_pago_display }}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estado</span>
+                    <span class="info-value" style="color: #2d6a4f;">
+                        <i class="fas fa-check-circle"></i> {{ venta.get_estado_display }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="total-section">
+                <span class="total-text">TOTAL A PAGAR:</span>
+                <span class="total-value">${{ venta.total|floatformat:2 }}</span>
+            </div>
+        </div>
+
+        <!-- Detalles de productos -->
+        <div class="details-table">
+            <div class="table-title">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Productos Vendidos</span>
+            </div>
+
+            {% if detalles %}
+            <div class="table-header">
+                <span>Producto</span>
+                <span>Cantidad</span>
+                <span class="hide-mobile">Precio Unit.</span>
+                <span>Subtotal</span>
+            </div>
+
+            {% for detalle in detalles %}
+            <div class="table-row">
+                <div class="product-info">
+                    <span class="product-name">{{ detalle.producto.nombre }}</span>
+                    <span class="product-sku">SKU: {{ detalle.producto.sku }}</span>
+                </div>
+                <div class="quantity-cell">
+                    <span>{{ detalle.cantidad }} pz</span>
+                </div>
+                <div class="price-cell hide-mobile">
+                    ${{ detalle.precio_unitario|floatformat:2 }}
+                </div>
+                <div class="price-cell">
+                    ${{ detalle.subtotal|floatformat:2 }}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No hay productos en esta venta</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="fas fa-print"></i>
+                <span>Imprimir Ticket</span>
+            </button>
+            <a href="{% url 'ventas:resumen' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver al Resumen</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Configuración para impresión
+        window.addEventListener('beforeprint', () => {
+            document.body.style.backgroundColor = 'white';
+            document.querySelectorAll('.header').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.action-buttons').forEach(el => el.style.display = 'none');
+        });
+        
+        window.addEventListener('afterprint', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Agregar Stock</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Tarjeta simple */
+        .simple-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin: 1rem 0 2rem;
+        }
+
+        .simple-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .simple-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .simple-title h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Tabs de búsqueda */
+        .search-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ffe9d7;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #9d6b53;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: #e8a87c;
+        }
+
+        .tab-btn.active {
+            color: #e8a87c;
+            border-bottom-color: #e8a87c;
+        }
+
+        /* Tabs de búsqueda */
+        .search-tab {
+            display: none;
+        }
+
+        .search-tab.active {
+            display: block;
+        }
+
+        /* Dropdown de resultados */
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            min-width: 100%;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0d9cc;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .search-result-item:hover {
+            background: #faf7f2;
+            padding-left: 1.5rem;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-name {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .search-result-sku {
+            font-size: 0.85rem;
+            color: #9d6b53;
+        }
+
+        /* Formulario ultra simple */
+        .stock-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #6b705c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .input-group label i {
+            color: #e8a87c;
+            width: 20px;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            background: #f8f4f0;
+            border-radius: 60px;
+            padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+            border: 2px solid #ffe9d7;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .input-field:focus-within {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .input-field i {
+            color: #bc9b8b;
+        }
+
+        .input-field input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-field input[type="number"] {
+            appearance: none;
+            -moz-appearance: textfield;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .input-field input[type="number"]::-webkit-outer-spin-button,
+        .input-field input[type="number"]::-webkit-inner-spin-button {
+            appearance: none;
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .scanner-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #fdf0e0;
+            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            color: #9d6b53;
+            font-size: 0.9rem;
+        }
+
+        .scanner-hint i {
+            color: #e8a87c;
+        }
+
+        .scanner-hint .badge {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Tarjeta de producto seleccionado */
+        .selected-product-card {
+            background: linear-gradient(135deg, #fdf0e0 0%, #fff5ed 100%);
+            border: 3px solid #e8a87c;
+            border-radius: 25px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .selected-product-card.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-details h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-details p {
+            font-size: 0.85rem;
+            color: #9d6b53;
+            margin: 0.2rem 0;
+        }
+
+        .stock-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fdf0e0;
+            border-radius: 15px;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid rgba(232, 168, 124, 0.3);
+            min-width: 100px;
+        }
+
+        .stock-value {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #e8a87c;
+            line-height: 1;
+        }
+
+        .stock-label {
+            font-size: 0.7rem;
+            color: #9d6b53;
+            margin-top: 0.3rem;
+            text-align: center;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: #e8a87c;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .stock-info {
+            display: none;
+        }
+
+        .change-product-btn {
+            background: white;
+            border: 2px solid #e8a87c;
+            color: #e8a87c;
+            padding: 0.6rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .change-product-btn:hover {
+            background: #e8a87c;
+            color: white;
+        }
+
+        /* Botón grande y simple */
+        .add-button {
+            background: #e8a87c;
+            border: none;
+            border-radius: 60px;
+            padding: 1.3rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            width: 100%;
+        }
+
+        .add-button:hover {
+            background: #e5987c;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -10px #e8a87c;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 500px) {
+            .simple-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Tarjeta simple -->
+        <div class="simple-card">
+            <div class="simple-title">
+                <i class="fas fa-boxes"></i>
+                <h2>Agregar stock</h2>
+            </div>
+
+            <!-- Tabs para búsqueda -->
+            <div class="search-tabs">
+                <button class="tab-btn active" onclick="switchTab('sku')">
+                    <i class="fas fa-barcode"></i> Por código SKU
+                </button>
+                <button class="tab-btn" onclick="switchTab('name')">
+                    <i class="fas fa-tag"></i> Por producto
+                </button>
+            </div>
+
+            <!-- Tarjeta de producto seleccionado -->
+            <div id="selectedProductCard" class="selected-product-card">
+                <div class="product-info">
+                    <div class="product-details">
+                        <h3 id="productName"></h3>
+                        <p><strong>SKU:</strong> <span id="productSku"></span></p>
+                        <p id="productCategory"></p>
+                    </div>
+                    <div class="stock-display">
+                        <div class="stock-value" id="productStock">0</div>
+                        <div class="stock-label">Disponible</div>
+                    </div>
+                </div>
+                <button type="button" class="change-product-btn" onclick="changeProduct()">
+                    <i class="fas fa-redo"></i> Cambiar producto
+                </button>
+            </div>
+
+            <!-- Formulario simple -->
+            <div class="stock-form">
+                <!-- TAB 1: Búsqueda por SKU -->
+                <div id="sku-tab" class="search-tab active">
+                    <div class="input-group">
+                        <label>
+                            <i class="fas fa-barcode"></i>
+                            Código SKU
+                        </label>
+                        <div class="input-field">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="skuInput" placeholder="Escanea o escribe el SKU" autocomplete="off" autofocus>
+                        </div>
+                        <div class="scanner-hint">
+                            <i class="fas fa-camera"></i>
+                            <span>Escáner listo, solo apunta y lee</span>
+                            <span class="badge">automático</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Búsqueda por nombre -->
+                <div id="name-tab" class="search-tab">
+                    <div class="input-group">
+                        <label>
+                            <i class="fas fa-search"></i>
+                            Busca el producto
+                        </label>
+                        <div class="input-field">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="productSearchInput" placeholder="Escribe el nombre del producto..." autocomplete="off" onkeyup="searchProducts()">
+                            <div id="searchResults" class="search-dropdown"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cantidad -->
+                <div class="input-group">
+                    <label>
+                        <i class="fas fa-plus-circle"></i>
+                        Cantidad a agregar
+                    </label>
+                    <div class="input-field">
+                        <i class="fas fa-hashtag"></i>
+                        <input type="number" id="qtyInput" min="1" value="1" step="1">
+                    </div>
+                </div>
+
+                <!-- Botón único -->
+                <button class="add-button" onclick="addStock()">
+                    <i class="fas fa-plus"></i>
+                    Agregar al inventario
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart"></i> Papelería Yessy
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para funcionalidad -->
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/agregar_existente.js' %}"></script>
+</body>
+</html>

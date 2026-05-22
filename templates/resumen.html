@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Resumen de Ventas</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Título de la sección */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .page-title span {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+
+        /* Tarjetas de resumen */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 30px;
+            padding: 1.5rem;
+            border: 2px solid #ffe9d7;
+            text-align: center;
+        }
+
+        .stat-card i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-label {
+            color: #7f7b82;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .stat-value small {
+            font-size: 0.9rem;
+            color: #bc9b8b;
+        }
+
+        /* Filtros */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border-radius: 60px;
+            border: 2px solid #ffe9d7;
+        }
+
+        .filter-group i {
+            color: #bc9b8b;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            border: none;
+            padding: 0.7rem 0.5rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            background: transparent;
+        }
+
+        .filter-btn {
+            background: #e8a87c;
+            border: none;
+            border-radius: 60px;
+            padding: 0.7rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #e5987c;
+        }
+
+        /* Tabla de ventas */
+        .sales-table {
+            background: white;
+            border-radius: 40px;
+            padding: 1.5rem;
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1fr 0.5fr;
+            padding: 1rem;
+            background: #fdf0e0;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #6b705c;
+            margin-bottom: 0.5rem;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1fr 0.5fr;
+            padding: 1rem;
+            border-bottom: 1px solid #ffe9d7;
+            align-items: center;
+        }
+
+        .table-row:hover {
+            background: #f8f4f0;
+            border-radius: 30px;
+        }
+
+        .payment-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .badge-efectivo {
+            background: #c9e4de;
+            color: #2d6a4f;
+        }
+
+        .badge-transferencia {
+            background: #fdf0e0;
+            color: #e5987c;
+        }
+
+        .cancel-btn {
+            background: #f8acb4;
+            border: none;
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            color: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #f28b82;
+        }
+
+        /* Paginación simple */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #ffe9d7;
+            background: white;
+            color: #7f7b82;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .page-btn.active {
+            background: #e8a87c;
+            color: white;
+            border-color: #e8a87c;
+        }
+
+        .page-btn:hover {
+            border-color: #e8a87c;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 700px) {
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .table-header, .table-row {
+                grid-template-columns: 1fr 1.5fr 1fr 1fr;
+            }
+            
+            .table-header .hide-mobile,
+            .table-row .hide-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'index' %}"class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-chart-line"></i>
+            <h1>Resumen de ventas</h1>
+            <span>{{ label_fecha|default:"Hoy" }}</span>
+        </div>
+
+        <!-- Tarjetas de resumen -->
+        <div class="summary-cards">
+            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="stat-label">{% if resumen.total_devoluciones > 0 %}Total (Neto){% else %}Total{% endif %}</div>
+                <div class="stat-value">${{ resumen.total_neto|default:resumen.total_ventas|floatformat:2|default:"0.00" }}</div>
+                {% if resumen.total_devoluciones > 0 %}
+                <div style="font-size: 0.8rem; color: #9d6b53; margin-top: 0.3rem;">
+                    Bruto: ${{ resumen.total_ventas|floatformat:2 }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-receipt"></i>
+                <div class="stat-label">Ventas</div>
+                <div class="stat-value">{{ resumen.cantidad_ventas|default:0 }}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-money-bill-wave"></i>
+                <div class="stat-label">Efectivo</div>
+                <div class="stat-value">${{ resumen.efectivo_neto|default:resumen.total_efectivo|floatformat:2|default:"0.00" }}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-mobile-alt"></i>
+                <div class="stat-label">Transferencia</div>
+                <div class="stat-value">${{ resumen.transferencias_neto|default:resumen.total_transferencias|floatformat:2|default:"0.00" }}</div>
+            </div>
+            {% if resumen.total_devoluciones > 0 %}
+            <div class="stat-card" style="background: #fdf0e0; border-color: #ffe9d7;">
+                <i class="fas fa-undo-alt" style="color: #e8a87c;"></i>
+                <div class="stat-label">Devoluciones</div>
+                <div class="stat-value" style="color: #e8a87c;">-${{ resumen.total_devoluciones|floatformat:2 }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Filtros simples -->
+        <div class="filters">
+            <div class="filter-group">
+                <i class="fas fa-calendar"></i>
+                <select id="filterDate">
+                    <option value="today" {% if filtro_fecha == 'today' %}selected{% endif %}>Hoy</option>
+                    <option value="yesterday" {% if filtro_fecha == 'yesterday' %}selected{% endif %}>Ayer</option>
+                    <option value="week" {% if filtro_fecha == 'week' %}selected{% endif %}>Esta semana</option>
+                    <option value="month" {% if filtro_fecha == 'month' %}selected{% endif %}>Este mes</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <i class="fas fa-filter"></i>
+                <select id="filterPayment">
+                    <option value="all" {% if filtro_pago == 'all' %}selected{% endif %}>Todos</option>
+                    <option value="efectivo" {% if filtro_pago == 'efectivo' %}selected{% endif %}>Efectivo</option>
+                    <option value="transferencia" {% if filtro_pago == 'transferencia' %}selected{% endif %}>Transferencia</option>
+                </select>
+            </div>
+            <button class="filter-btn" onclick="applyFilters()">
+                <i class="fas fa-search"></i> Filtrar
+            </button>
+        </div>
+
+        <!-- Tabla de ventas -->
+        <div class="sales-table">
+            <div class="table-header">
+                <span>Folio</span>
+                <span>Fecha</span>
+                <span>Total</span>
+                <span>Pago</span>
+                <span class="hide-mobile">Productos</span>
+                <span>Acción</span>
+            </div>
+
+            {% for venta in ventas %}
+            <div class="table-row">
+                <span class="folio">{{ venta.folio }}</span>
+                <span class="date">{{ venta.date }}</span>
+                <span class="total">${{ venta.total }}</span>
+                <span>
+                    <span class="badge {% if venta.payment == 'efectivo' %}badge-efectivo{% else %}badge-transferencia{% endif %}">
+                        <i class="fas {% if venta.payment == 'efectivo' %}fa-money-bill-wave{% else %}fa-mobile-alt{% endif %}"></i>
+                        {{ venta.payment|title }}
+                    </span>
+                </span>
+                <span class="hide-mobile">{{ venta.items }}</span>
+                <span>
+                    <a href="{% url 'ventas:detalle' venta.id %}" class="action-link">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </span>
+            </div>
+            {% empty %}
+            <div class="table-row">
+                <span colspan="6" style="text-align: center; color: #bc9b8b;">No hay ventas registradas</span>
+            </div>
+            {% endfor %}
+
+            <!-- Paginación simple -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart"></i> Papelería Yessy
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filtros simples
+        function applyFilters() {
+            const filterDate = document.getElementById('filterDate').value;
+            const filterPayment = document.getElementById('filterPayment').value;
+            
+            // Redirigir con parámetros
+            let url = '{% url "ventas:resumen" %}?';
+            if (filterDate !== 'all') url += `fecha=${filterDate}&`;
+            if (filterPayment !== 'all') url += `pago=${filterPayment}`;
+            
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

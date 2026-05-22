@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Dashboard - Papelería Yessy{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <h2><i class="fas fa-chart-bar"></i> Dashboard</h2>
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Ventas del Día</h6>
+                    <h3>${{ resumen.total_ventas }}</h3>
+                    <small>{{ resumen.cantidad_ventas }} transacciones</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Efectivo</h6>
+                    <h3>${{ resumen.total_efectivo }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Transferencias</h6>
+                    <h3>${{ resumen.total_transferencias }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning">
+                <div class="card-body">
+                    <h6 class="card-title">Fecha</h6>
+                    <h5>{{ hoy|date:"d/m/Y" }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Acciones Rápidas</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'ventas:index' %}" class="btn btn-success btn-lg w-100 mb-2">
+                        <i class="fas fa-cash-register"></i> Nueva Venta
+                    </a>
+                    <a href="{% url 'caja:corte' %}" class="btn btn-warning btn-lg w-100 mb-2">
+                        <i class="fas fa-cut"></i> Corte de Caja
+                    </a>
+                    <a href="{% url 'reportes:ventas' %}" class="btn btn-info btn-lg w-100">
+                        <i class="fas fa-list"></i> Ver Reportes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Información</h5>
+                </div>
+                <div class="card-body small">
+                    <p><i class="fas fa-clock"></i> <strong>Hora Actual:</strong> <span id="hora-actual"></span></p>
+                    <p><i class="fas fa-user"></i> <strong>Usuario:</strong> {{ user.get_full_name|default:user.username }}</p>
+                    <p><i class="fas fa-shield-alt"></i> <strong>Rol:</strong> 
+                        {% if user.perfil %}
+                            {{ user.perfil.get_rol_display }}
+                        {% else %}
+                            Vendedor
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Actualizar hora actual
+function actualizarHora() {
+    const now = new Date();
+    document.getElementById('hora-actual').textContent = now.toLocaleTimeString('es-MX');
+}
+
+actualizarHora();
+setInterval(actualizarHora, 1000);
+</script>
+{% endblock %}

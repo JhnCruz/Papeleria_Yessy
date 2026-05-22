@@ -1,0 +1,410 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block titulo %}Panel de Administrador - Productos | Papelería Yessy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .admin-container {
+        padding: 2rem 1rem;
+        background-color: #faf7f2;
+        min-height: 100vh;
+    }
+
+    .admin-header {
+        max-width: 1200px;
+        margin: 0 auto 2rem;
+    }
+
+    .admin-header h1 {
+        color: #2d3e50;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .admin-header p {
+        color: #888;
+        font-size: 1.05rem;
+        margin: 0;
+    }
+
+    .admin-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #e8a87c;
+        text-align: center;
+    }
+
+    .stat-card strong {
+        display: block;
+        font-size: 2rem;
+        color: #e8a87c;
+        margin-top: 0.5rem;
+    }
+
+    .stat-card span {
+        color: #888;
+        font-size: 0.95rem;
+        display: block;
+        margin-top: 0.3rem;
+    }
+
+    .productos-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .producto-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.8rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .producto-card:hover {
+        border-color: #e8a87c;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(232, 168, 124, 0.15);
+    }
+
+    .producto-badge {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .badge-activo {
+        background: linear-gradient(135deg, #c9e4de 0%, #a8d5c9 100%);
+        color: #2d6a4f;
+    }
+
+    .badge-inactivo {
+        background: #f0e0d8;
+        color: #8b5a3c;
+    }
+
+    .producto-header {
+        margin-bottom: 1.2rem;
+        padding-right: 120px;
+    }
+
+    .producto-sku {
+        font-size: 0.8rem;
+        color: #e8a87c;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+
+    .producto-nombre {
+        font-size: 1.3rem;
+        color: #2d3e50;
+        margin-bottom: 0.3rem;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    .producto-categoria {
+        font-size: 0.9rem;
+        color: #888;
+        margin: 0;
+    }
+
+    .producto-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffe9d7, transparent);
+        margin: 1.2rem 0;
+    }
+
+    .producto-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .info-label {
+        font-size: 0.8rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        font-weight: 600;
+    }
+
+    .info-value {
+        font-size: 1.2rem;
+        color: #2d3e50;
+        font-weight: 600;
+    }
+
+    .info-value.stock-alto {
+        color: #28a745;
+    }
+
+    .info-value.stock-bajo {
+        color: #dc3545;
+    }
+
+    .info-value.price {
+        color: #e8a87c;
+    }
+
+    .producto-precio {
+        background: #fdf0e0;
+        padding: 0.8rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 1.2rem;
+    }
+
+    .producto-precio-label {
+        font-size: 0.75rem;
+        color: #999;
+        text-transform: uppercase;
+        margin-bottom: 0.3rem;
+    }
+
+    .producto-precio-valor {
+        font-size: 1.8rem;
+        color: #e8a87c;
+        font-weight: 700;
+    }
+
+    .producto-acciones {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-accion {
+        flex: 1;
+        min-width: 120px;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 50px;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-decoration: none;
+    }
+
+    .btn-editar {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(232, 168, 124, 0.25);
+    }
+
+    .btn-editar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(232, 168, 124, 0.35);
+    }
+
+    .btn-toggle {
+        background: #f0f0f0;
+        color: #2d3e50;
+        border: 2px solid #ffe9d7;
+    }
+
+    .btn-toggle:hover {
+        background: white;
+        border-color: #e8a87c;
+        color: #e8a87c;
+    }
+
+    .btn-toggle.active {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        border-color: #28a745;
+    }
+
+    .btn-toggle.inactive {
+        background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+        color: white;
+        border-color: #dc3545;
+    }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .empty-state p {
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .productos-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .producto-card {
+            padding: 1.5rem;
+        }
+
+        .producto-badge {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .producto-header {
+            padding-right: 100px;
+        }
+
+        .producto-acciones {
+            flex-direction: column;
+        }
+
+        .btn-accion {
+            min-width: auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="admin-container">
+    <!-- Encabezado -->
+    <div class="admin-header">
+        <h1>
+            <i class="fas fa-inventory"></i>
+            Gestión de Productos
+        </h1>
+        <p>Administra, edita y controla todos los productos del inventario</p>
+
+        <!-- Estadísticas -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <i class="fas fa-box" style="font-size: 1.5rem; color: #e8a87c;"></i>
+                <span>Total de Productos</span>
+                <strong>{{ productos.count }}</strong>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #28a745;"></i>
+                <span>Productos Activos</span>
+                <strong>{{ productos|dictsort:"activo"|length }}</strong>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-times-circle" style="font-size: 1.5rem; color: #dc3545;"></i>
+                <span>Productos Inactivos</span>
+                <strong>{{ inactivos }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid de Productos -->
+    <div class="productos-grid">
+        {% if productos %}
+            {% for producto in productos %}
+            <div class="producto-card">
+                <!-- Estado Badge -->
+                <div class="producto-badge {% if producto.activo %}badge-activo{% else %}badge-inactivo{% endif %}">
+                    {% if producto.activo %}
+                        <i class="fas fa-circle-check"></i> Activo
+                    {% else %}
+                        <i class="fas fa-circle-xmark"></i> Inactivo
+                    {% endif %}
+                </div>
+
+                <!-- Información del Producto -->
+                <div class="producto-header">
+                    <div class="producto-sku">{{ producto.sku }}</div>
+                    <div class="producto-nombre">{{ producto.nombre }}</div>
+                    <p class="producto-categoria">{{ producto.categoria.nombre }}</p>
+                </div>
+
+                <div class="producto-divider"></div>
+
+                <!-- Detalles -->
+                <div class="producto-info">
+                    <div class="info-item">
+                        <span class="info-label">Stock Actual</span>
+                        <span class="info-value {% if producto.stock_actual <= producto.stock_minimo %}stock-bajo{% else %}stock-alto{% endif %}">
+                            {{ producto.stock_actual }}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Stock Mínimo</span>
+                        <span class="info-value">{{ producto.stock_minimo }}</span>
+                    </div>
+                </div>
+
+                <!-- Precio -->
+                <div class="producto-precio">
+                    <div class="producto-precio-label">Precio por Pieza</div>
+                    <div class="producto-precio-valor">${{ producto.precio_pieza }}</div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="producto-acciones">
+                    <a href="{% url 'productos:admin_editar' producto.id %}" class="btn-accion btn-editar">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <form method="POST" action="{% url 'productos:admin_eliminar' producto.id %}" style="flex: 1;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-accion btn-toggle {% if producto.activo %}active{% else %}inactive{% endif %}" style="width: 100%;">
+                            {% if producto.activo %}
+                                <i class="fas fa-toggle-on"></i> Desactivar
+                            {% else %}
+                                <i class="fas fa-toggle-off"></i> Activar
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No hay productos registrados en el inventario</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

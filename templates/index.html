@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Punto de Venta</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Contenedor principal centrado con ancho máximo */
+        .main-container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado centrado */
+        .welcome-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .store-name {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background-color: #ffffffd9;
+            backdrop-filter: blur(8px);
+            padding: 0.75rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 8px 20px -8px rgba(231, 166, 96, 0.2);
+            border: 1px solid #ffe9d7;
+            margin-bottom: 1.5rem;
+            width: auto;
+        }
+
+        .store-name i {
+            font-size: 2rem;
+            color: #e8a87c;
+        }
+
+        .store-name h1 {
+            font-weight: 600;
+            font-size: 2rem;
+            color: #4a4e69;
+            letter-spacing: -0.5px;
+        }
+
+        .store-name span {
+            background-color: #c9e4de;
+            color: #2d6a4f;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-left: 0.5rem;
+        }
+
+        .greeting {
+            font-size: 1.2rem;
+            color: #6b705c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .greeting i {
+            color: #f4acb7;
+        }
+
+        .user-chip {
+            background-color: #ffe5d9;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            color: #9d6b53;
+            margin-left: 0.8rem;
+        }
+        .logout-btn {
+            background-color: #ffe5d9;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #9d6b53;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .logout-btn:hover {
+            background-color: #f8acb4;
+            color: #c84754;
+            transform: scale(1.05);
+        }
+        /* Grid de opciones centrado */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2.5rem 0;
+            width: 100%;
+            justify-content: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Tarjetas centradas internamente */
+        .friendly-card {
+            background-color: white;
+            border-radius: 32px;
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid #fff1e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .friendly-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(232, 168, 124, 0.3);
+            border-color: #fcd5b5;
+        }
+
+        .friendly-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #f8d5b0, #ffb5a7);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .friendly-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-emoji {
+            font-size: 3rem;
+            margin-bottom: 1.2rem;
+            background: #fdf0e0;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px #fce2d1;
+        }
+
+        .friendly-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #3b3a47;
+        }
+
+        .friendly-card p {
+            color: #7f7b82;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+            font-weight: 400;
+            max-width: 220px;
+        }
+
+        .action-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            color: #e5987c;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .action-hint i {
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .friendly-card:hover .action-hint i {
+            transform: translateX(5px);
+        }
+
+        /* Resumen del día centrado */
+        .daily-summary {
+            background: #ffffffdb;
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 1.5rem 2.5rem;
+            margin: 2rem 0 1.5rem;
+            border: 1px solid #ffe0cc;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        .summary-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .summary-left i {
+            font-size: 2.2rem;
+            color: #a7c4b5;
+        }
+
+        .mini-badge {
+            background: #cfe1cf;
+            border-radius: 60px;
+            padding: 0.25rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2f5230;
+        }
+
+        .summary-numbers {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .number-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 90px;
+        }
+
+        .number-label {
+            font-size: 0.85rem;
+            color: #8d8a7c;
+        }
+
+        .number-value {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #4a4e69;
+            line-height: 1.2;
+        }
+
+        .number-value small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #bc9b8b;
+        }
+
+        /* Footer centrado */
+        .gentle-footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-left i {
+            color: #ddb5a1;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .footer-right span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #f1e4d8;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            color: #8d6e63;
+        }
+
+        /* responsive */
+        @media (max-width: 1100px) {
+            .options-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body { 
+                padding: 1rem; 
+                justify-content: flex-start;
+            }
+            
+            .store-name { 
+                flex-direction: column; 
+                padding: 1rem;
+            }
+            
+            .store-name h1 { 
+                font-size: 1.6rem; 
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .daily-summary { 
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+            
+            .summary-numbers {
+                gap: 1rem;
+            }
+            
+            .gentle-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-right {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado centrado -->
+        <div class="welcome-header">
+            <div class="store-name">
+                <i class="fas fa-pencil-alt"></i>
+                <h1>Papelería Yessy</h1>
+            </div>
+            <div class="greeting">
+                <i class="far fa-smile-wink"></i>
+                <span>Papelería Yessy - Panel de Control</span>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="user-chip">
+                        <i class="fas fa-user-astronaut"></i> {{ user.username|default:"Admin" }}
+                    </div>
+                    <a href="{% url 'usuarios:logout' %}" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notificación de Stock Bajo -->
+        {% if hay_stock_bajo %}
+        <div style="position: fixed; top: 100px; right: 20px; z-index: 1000; background: linear-gradient(135deg, #ffe0b2 0%, #ffccbc 100%); border-radius: 50px; padding: 0.6rem 1.5rem; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.25); border: 1px solid #ffb74d; display: flex; align-items: center; gap: 0.7rem; font-size: 0.9rem; font-weight: 600; color: #e65100;">
+            <i class="fas fa-warning" style="font-size: 1rem;"></i>
+            <span>Stock Bajo ({{ productos_bajo_stock.count }})</span>
+        </div>
+        {% endif %}
+
+        <!-- Grid de opciones centrado con 3 columnas -->
+        <div class="options-grid">
+            <!-- Venta (Para todos) -->
+            <a href="{% url 'ventas:index' %}" class="friendly-card">
+                <div class="card-emoji">🧾</div>
+                <h3>Venta</h3>
+                <p>Pasa productos con el lector, cobra en efectivo o transferencia.</p>
+                <div class="action-hint">
+                    <span>Hacer venta</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Devoluciones (Para todos) -->
+            <a href="{% url 'ventas:devolucion' %}" class="friendly-card">
+                <div class="card-emoji">↩️</div>
+                <h3>Devoluciones</h3>
+                <p>Gestiona cambios y devoluciones de productos.</p>
+                <div class="action-hint">
+                    <span>Procesar devolución</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            {% if user.is_superuser or user.perfil.rol != 'vendedor' %}
+            <!-- Agregar inventario (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'productos:agregar_stock' %}" class="friendly-card">
+                <div class="card-emoji">📦</div>
+                <h3>Agregar inventario</h3>
+                <p>Llegó mercancía nueva o necesitas ajustar existencias.</p>
+                <div class="action-hint">
+                    <span>+ Stock</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Inventario General (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'productos:inventario_general' %}" class="friendly-card">
+                <div class="card-emoji">📊</div>
+                <h3>Inventario General</h3>
+                <p>Ve el stock total, por categoría y estado de todos tus productos.</p>
+                <div class="action-hint">
+                    <span>Ver resumen</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Producto nuevo (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'productos:agregar_nuevo' %}" class="friendly-card">
+                <div class="card-emoji">🏷️</div>
+                <h3>Producto nuevo</h3>
+                <p>Registra artículo con código de barras y precio.</p>
+                <div class="action-hint">
+                    <span>Dar de alta</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Editar precios (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'productos:editar_precios' %}" class="friendly-card">
+                <div class="card-emoji">💰</div>
+                <h3>Editar Precios</h3>
+                <p>Actualiza los precios de venta de tus productos.</p>
+                <div class="action-hint">
+                    <span>Ajustar precios</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Resumen de ventas (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'ventas:resumen' %}" class="friendly-card">
+                <div class="card-emoji">📊</div>
+                <h3>Resumen de ventas</h3>
+                <p>Consulta lo que has vendido o cancela una venta.</p>
+                <div class="action-hint">
+                    <span>Ver historial</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Corte de caja (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'caja:corte' %}" class="friendly-card">
+                <div class="card-emoji">🧮</div>
+                <h3>Corte de caja</h3>
+                <p>Totales del día: efectivo, transferencia. Cierra tu jornada.</p>
+                <div class="action-hint">
+                    <span>Hacer corte</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Reportes (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'reportes:dashboard' %}" class="friendly-card">
+                <div class="card-emoji">📋</div>
+                <h3>Reportes</h3>
+                <p>Bitácora, movimientos, productos más vendidos.</p>
+                <div class="action-hint">
+                    <span>Explorar</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Agregar Vendedor (Yessy + Supervisor + Admin) -->
+            <a href="{% url 'usuarios:agregar_vendedor' %}" class="friendly-card">
+                <div class="card-emoji">👥</div>
+                <h3>Agregar Vendedor</h3>
+                <p>Crea nuevos usuarios vendedores o supervisores.</p>
+                <div class="action-hint">
+                    <span>Gestionar personal</span> <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Resumen rápido centrado -->
+        {% if user.is_authenticated and resumen %}
+        <div class="daily-summary">
+            <div class="summary-left">
+                <i class="far fa-calendar-check"></i>
+                <span class="mini-badge">📌 Resumen del {{ resumen.fecha }}</span>
+            </div>
+            <div class="summary-numbers">
+                <div class="number-item">
+                    <span class="number-label">Ventas (Bruto)</span>
+                    <span class="number-value">${{ resumen.total_ventas }} <small>MXN</small></span>
+                </div>
+                {% if resumen.total_devoluciones > 0 %}
+                <div class="number-item" style="color: #e8a87c;">
+                    <span class="number-label">Devoluciones</span>
+                    <span class="number-value">-${{ resumen.total_devoluciones }}</span>
+                </div>
+                <div class="number-item" style="background: #fdf0e0; padding: 0.8rem 1.2rem; border-radius: 15px; border: 2px solid #ffe9d7;">
+                    <span class="number-label" style="font-weight: 700;">NETO</span>
+                    <span class="number-value" style="font-weight: 700; color: #4a4e69;">${{ resumen.total_neto }}</span>
+                </div>
+                {% endif %}
+                <div class="number-item">
+                    <span class="number-label">Efectivo</span>
+                    <span class="number-value">${{ resumen.efectivo_neto|default:resumen.total_efectivo }}</span>
+                </div>
+                <div class="number-item">
+                    <span class="number-label">Transferencia</span>
+                    <span class="number-value">${{ resumen.transferencias_neto|default:resumen.total_transferencias }}</span>
+                </div>
+                <div class="number-item">
+                    <span class="number-label">Transacciones</span>
+                    <span class="number-value">{{ resumen.cantidad_ventas }}{% if resumen.cantidad_devoluciones > 0 %} (-{{ resumen.cantidad_devoluciones }}){% endif %}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer centrado -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart" style="color: #f8acb4;"></i> 
+                Papelería Yessy · Tu libreta amiga
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+                <span><i class="fas fa-shield"></i> Seguro</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para mejorar UX -->
+    <script>
+        // Solo mostrar animación de clic en tarjetas
+        document.querySelectorAll('.friendly-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Permitir navegación normal
+                if (e.target.closest('a')) {
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

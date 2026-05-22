@@ -1,0 +1,659 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Devoluciones</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .return-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Título */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Sección de búsqueda */
+        .search-box {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .search-box h2 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-box h2 i {
+            color: #e8a87c;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input-group input {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input-group input:focus {
+            border-color: #e8a87c;
+            box-shadow: 0 0 0 3px rgba(232, 168, 124, 0.1);
+        }
+
+        .search-btn {
+            background: #e8a87c;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-btn:hover {
+            background: #d99860;
+            transform: scale(1.05);
+        }
+
+        .search-btn:disabled {
+            background: #bc9b8b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #searchStatus {
+            font-size: 0.9rem;
+            color: #7f7b82;
+            margin-top: 0.5rem;
+        }
+
+        /* Contenedor de venta */
+        .sale-info {
+            background: #fdf0e0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #ffe9d7;
+            display: none;
+        }
+
+        .sale-info.show {
+            display: block;
+        }
+
+        .sale-info h3 {
+            color: #4a4e69;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .sale-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .sale-detail-item {
+            display: flex;
+            justify-content: space-between;
+            color: #7f7b82;
+        }
+
+        .sale-detail-item strong {
+            color: #4a4e69;
+        }
+
+        /* Tabla de productos */
+        .products-table {
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            border: 2px solid #ffe9d7;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .products-table.show {
+            display: block;
+        }
+
+        .products-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table thead {
+            background: #fdf0e0;
+        }
+
+        .products-table th {
+            padding: 1rem;
+            text-align: left;
+            color: #4a4e69;
+            font-weight: 600;
+            border-bottom: 2px solid #ffe9d7;
+        }
+
+        .products-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f5e6dc;
+            color: #7f7b82;
+        }
+
+        .products-table tr:hover {
+            background: #faf7f2;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            background: white;
+            border: 1px solid #ffe9d7;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #ffe5d9;
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ffe9d7;
+            border-radius: 8px;
+            padding: 0.3rem;
+        }
+
+        /* Formulario de devolución */
+        .return-form {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .return-form.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #4a4e69;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            resize: vertical;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #e8a87c;
+            box-shadow: 0 0 0 3px rgba(232, 168, 124, 0.1);
+        }
+
+        /* Resumen de devolución */
+        .return-summary {
+            background: #f5f0eb;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        .return-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #7f7b82;
+        }
+
+        .return-summary-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4a4e69;
+            border-top: 2px solid #ffe9d7;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Botones */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 25px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d99860;
+            transform: scale(1.05);
+        }
+
+        .btn-primary:disabled {
+            background: #bc9b8b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #9d6b53;
+            border: 2px solid #ffe9d7;
+        }
+
+        .btn-secondary:hover {
+            background: #ffe5d9;
+        }
+
+        /* Mensajes */
+        .message {
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message-success {
+            background: #c9e4de;
+            color: #2d6a4f;
+            border: 2px solid #a8d5c9;
+        }
+
+        .message-error {
+            background: #fde4e4;
+            color: #8b3a3a;
+            border: 2px solid #f5b5b5;
+        }
+
+        .message i {
+            margin-right: 0.5rem;
+        }
+
+        /* Pie de página */
+        .gentle-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px dotted #ffe9d7;
+            font-size: 0.85rem;
+            color: #bc9b8b;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-right {
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .sale-details {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .search-input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="return-header">
+            <a href="/" class="back-home">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+            <div class="store-badge">
+                <i class="fas fa-undo-alt"></i>
+                <span>Devoluciones</span>
+            </div>
+            <div class="user-chip">
+                <i class="fas fa-user-circle"></i>
+                <span id="userDisplay">{{ usuario.get_full_name|default:usuario.username }}</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-exchange-alt"></i>
+            <h1>Procesar Devolución</h1>
+        </div>
+
+        <!-- Mensajes -->
+        <div id="messageContainer"></div>
+
+        <!-- Búsqueda de venta -->
+        <div class="search-box">
+            <h2><i class="fas fa-search"></i> Buscar Venta</h2>
+            <div class="search-input-group">
+                <input type="number" id="ventaIdInput" placeholder="Ingresa el Folio/ID de la venta..." min="1">
+                <button class="search-btn" id="searchBtn" onclick="buscarVenta()">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+            <div id="searchStatus"></div>
+        </div>
+
+        <!-- Información de venta -->
+        <div class="sale-info" id="saleInfo">
+            <h3>Información de Venta</h3>
+            <div class="sale-details">
+                <div class="sale-detail-item">
+                    <span>Folio:</span>
+                    <strong id="saleFolio">-</strong>
+                </div>
+                <div class="sale-detail-item">
+                    <span>Fecha:</span>
+                    <strong id="saleDate">-</strong>
+                </div>
+                <div class="sale-detail-item">
+                    <span>Total:</span>
+                    <strong id="saleTotal">$0.00</strong>
+                </div>
+                <div class="sale-detail-item">
+                    <span>Método de Pago:</span>
+                    <strong id="salePaymentMethod">-</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de productos para devolución -->
+        <div class="products-table" id="productsTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Original</th>
+                        <th>A Devolver</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Formulario de devolución -->
+        <div class="return-form" id="returnForm">
+            {% csrf_token %}
+            <h2 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-clipboard-list" style="color: #e8a87c;"></i>
+                Detalles de Devolución
+            </h2>
+
+            <div class="form-group">
+                <label for="motivo">Motivo de Devolución <span style="color: #e8a87c;">*</span></label>
+                <select id="motivo" required>
+                    <option value="">Selecciona el motivo...</option>
+                    <option value="defectuoso">Producto Defectuoso</option>
+                    <option value="cambio_idea">Cambio de Idea</option>
+                    <option value="producto_incorrecto">Producto Incorrecto</option>
+                    <option value="dañado">Producto Dañado</option>
+                    <option value="no_solicitado">No Solicitado</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tipoReembolso">Tipo de Reembolso <span style="color: #e8a87c;">*</span></label>
+                <select id="tipoReembolso" required>
+                    <option value="">Selecciona tipo de reembolso...</option>
+                    <option value="efectivo">Reembolso en Efectivo</option>
+                    <option value="transferencia">Devolución a Transferencia</option>
+                    <option value="credito">Crédito para Próximas Compras</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notas">Notas Adicionales</label>
+                <textarea id="notas" placeholder="Agrega notas si es necesario..." rows="3"></textarea>
+            </div>
+
+            <!-- Resumen de devolución -->
+            <div class="return-summary">
+                <div class="return-summary-item">
+                    <span>Artículos a Devolver:</span>
+                    <strong id="itemCount">0</strong>
+                </div>
+                <div class="return-summary-item">
+                    <span>Monto a Devolver:</span>
+                    <strong id="returnAmount">$0.00</strong>
+                </div>
+                <div class="return-summary-total">
+                    TOTAL A DEVOLVER: <span id="totalReturn">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="btn btn-primary" id="submitBtn" onclick="procesarDevolucion()">
+                    <i class="fas fa-check"></i> Procesar Devolución
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart" style="color: #f8acb4;"></i>
+                Papelería Yessy · Gestión de Devoluciones
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+                <span><i class="fas fa-shield"></i> Inventario en tiempo real</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Get CSRF token - added inline to avoid file loading issues
+        function getCSRFToken() {
+            const inp = document.querySelector('input[name=csrfmiddlewaretoken]');
+            return inp ? inp.value : '';
+        }
+    </script>
+    <script src="{% static 'js/devolucion.js' %}"></script>
+</body>
+</html>

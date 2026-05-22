@@ -1,0 +1,748 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Inventario General</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Tarjeta principal */
+        .inventory-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+        }
+
+        .inventory-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .inventory-title i {
+            font-size: 2.2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .inventory-title h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: #fdf0e0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #ffe9d7;
+            transition: all 0.3s;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(232, 168, 124, 0.15);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #8d8a7c;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e8a87c;
+        }
+
+        .stat-unit {
+            font-size: 0.75rem;
+            color: #a89a8a;
+            margin-top: 0.3rem;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: #fff9f0;
+            border-left: 4px solid #e8a87c;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .alert-box i {
+            color: #e8a87c;
+            margin-right: 0.5rem;
+        }
+
+        .alert-box p {
+            color: #8d6e63;
+            margin: 0;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a4e69;
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-title i {
+            color: #e8a87c;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ffe9d7;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -10px rgba(232, 168, 124, 0.2);
+        }
+
+        .category-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4a4e69;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #ffe9d7;
+        }
+
+        .category-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.6rem;
+            background: #faf7f2;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .category-stat-label {
+            color: #8d8a7c;
+            font-weight: 600;
+        }
+
+        .category-stat-value {
+            font-weight: 700;
+            color: #e8a87c;
+        }
+
+        .category-stat.warning .category-stat-value {
+            color: #f56565;
+        }
+
+        /* Tabla de Productos */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 20px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .products-table thead tr {
+            background-color: #fdf0e0;
+            border-bottom: 2px solid #ffe9d7;
+        }
+
+        .products-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 0.9rem;
+        }
+
+        .products-table tbody tr {
+            border-bottom: 1px solid #f0d9cc;
+            transition: background-color 0.2s;
+        }
+
+        .products-table tbody tr:hover {
+            background-color: #fdf0e0;
+        }
+
+        .products-table td {
+            padding: 1rem;
+            color: #2d3e50;
+            font-size: 0.9rem;
+        }
+
+        .sku-badge {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #4a7c8a;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-ok {
+            background: #ccf2dd;
+            color: #2f5230;
+        }
+
+        .badge-urgente {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+
+        .badge-sin {
+            background: #ffcccc;
+            color: #c62828;
+        }
+
+        /* Botones de Acción */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInModal 0.3s ease;
+        }
+
+        @keyframes slideInModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header i {
+            font-size: 2.5rem;
+            color: #e8a87c;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .modal-header h2 {
+            color: #4a4e69;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .modal-body {
+            color: #8d8a7c;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-body strong {
+            color: #e8a87c;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel {
+            border: 2px solid #d4d0c5;
+            background: white;
+            color: #4a4e69;
+        }
+
+        .btn-cancel:hover {
+            background: #faf7f2;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .inventory-card {
+                padding: 1.5rem;
+            }
+
+            .inventory-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+
+            .products-table th,
+            .products-table td {
+                padding: 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <div class="store-badge">
+                <i class="fas fa-warehouse"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            <div class="user-chip">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ user.first_name|default:user.username }}</span>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Inventario -->
+        <div class="inventory-card">
+            <!-- Título -->
+            <div class="inventory-title">
+                <i class="fas fa-chart-pie"></i>
+                <h2>Inventario General</h2>
+            </div>
+
+            <!-- Alert Box -->
+            {% if productos_sin_stock > 0 or productos_bajo_stock > 0 %}
+            <div class="alert-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>
+                    <strong>Atención:</strong>
+                    {% if productos_sin_stock > 0 %}
+                        {{ productos_sin_stock }} producto(s) sin stock
+                    {% endif %}
+                    {% if productos_sin_stock > 0 and productos_bajo_stock > 0 %} | {% endif %}
+                    {% if productos_bajo_stock > 0 %}
+                        {{ productos_bajo_stock }} producto(s) con stock bajo
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-label">📦 Total Productos</div>
+                    <div class="stat-value">{{ total_productos }}</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">📊 Stock Total</div>
+                    <div class="stat-value">{{ stock_total }}</div>
+                    <div class="stat-unit">unidades</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">💰 Valor Total</div>
+                    <div class="stat-value">${{ valor_total|floatformat:0 }}</div>
+                    <div class="stat-unit">MXN</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">⚠️ Stock Bajo</div>
+                    <div class="stat-value">{{ productos_bajo_stock }}</div>
+                    <div class="stat-unit">requieren atención</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">🚨 Sin Stock</div>
+                    <div class="stat-value">{{ productos_sin_stock }}</div>
+                    <div class="stat-unit">agotados</div>
+                </div>
+            </div>
+
+            <!-- Categorías -->
+            {% if categorias_stats %}
+            <div class="section-title">
+                <i class="fas fa-layer-group"></i> Inventario por Categoría
+            </div>
+
+            <div class="categories-grid">
+                {% for cat in categorias_stats %}
+                <div class="category-card">
+                    <div class="category-name">{{ cat.nombre }}</div>
+                    
+                    <div class="category-stat">
+                        <span class="category-stat-label">Productos:</span>
+                        <span class="category-stat-value">{{ cat.total_productos }}</span>
+                    </div>
+
+                    <div class="category-stat">
+                        <span class="category-stat-label">Stock Total:</span>
+                        <span class="category-stat-value">{{ cat.stock_total }}</span>
+                    </div>
+
+                    <div class="category-stat {% if cat.bajo_stock > 0 %}warning{% endif %}">
+                        <span class="category-stat-label">Stock Bajo:</span>
+                        <span class="category-stat-value">
+                            {% if cat.bajo_stock > 0 %}
+                                ⚠️ {{ cat.bajo_stock }}
+                            {% else %}
+                                ✅ OK
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Tabla de Productos -->
+            <div class="section-title">
+                <i class="fas fa-list"></i> Todos los Productos
+            </div>
+
+            <div class="table-responsive">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Mínimo</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td><span class="sku-badge">{{ producto.sku }}</span></td>
+                            <td><strong>{{ producto.nombre }}</strong></td>
+                            <td>{{ producto.categoria.nombre }}</td>
+                            <td><strong>{{ producto.stock_actual }}</strong></td>
+                            <td>{{ producto.stock_minimo }}</td>
+                            <td>${{ producto.precio_pieza }}</td>
+                            <td>
+                                {% if producto.estado_stock == 'sin_stock' %}
+                                    <span class="badge badge-sin">Sin Stock</span>
+                                {% elif producto.estado_stock == 'urgente' %}
+                                    <span class="badge badge-urgente">Urgente</span>
+                                {% else %}
+                                    <span class="badge badge-ok">OK</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{% url 'productos:editar_producto' producto.id %}" class="btn-action btn-edit" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn-action btn-delete" data-producto-id="{{ producto.id }}" data-producto-nombre="{{ producto.nombre }}" onclick="mostrarModal(this)" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 2rem; color: #8d8a7c;">
+                                No hay productos en el sistema
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar -->
+    <div id="modalEliminar" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-circle"></i>
+                <h2>Confirmar eliminación</h2>
+            </div>
+
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar el producto <strong id="modalProductoNombre"></strong>? Esta acción no se puede deshacer.
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="cerrarModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <form id="formEliminar" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-modal btn-confirm">
+                        <i class="fas fa-trash-alt"></i> Sí, eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarModal(boton) {
+            const productoId = boton.getAttribute('data-producto-id');
+            const productoNombre = boton.getAttribute('data-producto-nombre');
+            
+            document.getElementById('modalProductoNombre').textContent = productoNombre;
+            document.getElementById('modalEliminar').style.display = 'flex';
+            
+            const form = document.getElementById('formEliminar');
+            form.action = `/productos/${productoId}/eliminar/`;
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalEliminar').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalEliminar').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+    </script>
+</body>
+</html>

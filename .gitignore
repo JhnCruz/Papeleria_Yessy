@@ -1,0 +1,42 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Base de datos SQLite (opcional - si quieres mantener datos de prueba)
+# db.sqlite3
+
+# Archivos compilados
+*.pyc
+__pycache__/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de instaladores (ya tienes varios .exe grandes)
+Papeleria-Yessy-Setup-*.exe
+Papeleria.exe
+
+# Archivos temporales y logs
+logs/
+*.log
+*.tmp
+
+# Backups
+backups/
+*.backup
+*.backup_completo
+
+# Builds
+build/
+dist/
+*.nsi
+
+# Archivos de reportes (son documentos, pueden subirse o no según prefieras)
+# Si NO quieres subir los .md de reportes, descomenta la siguiente línea:
+# *.md

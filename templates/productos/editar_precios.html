@@ -1,0 +1,516 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Editar Precios</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Tarjeta principal */
+        .precios-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin: 1rem 0 2rem;
+        }
+
+        .precios-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .precios-title i {
+            font-size: 2.2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .precios-title h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Búsqueda */
+        .search-section {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            background: #faf7f2;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        /* Tabla */
+        .precios-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .precios-table thead tr {
+            border-bottom: 2px solid #ffe9d7;
+        }
+
+        .precios-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 0.95rem;
+        }
+
+        .precios-table tbody tr {
+            border-bottom: 1px solid #f0d9cc;
+            transition: background-color 0.2s;
+        }
+
+        .precios-table tbody tr:hover {
+            background-color: #fdf0e0;
+        }
+
+        .precios-table td {
+            padding: 1rem;
+            color: #2d3e50;
+            font-size: 0.95rem;
+        }
+
+        .sku-badge {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #4a7c8a;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .categoria-badge {
+            display: inline-block;
+            background: #fdf0e0;
+            color: #9d6b53;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .precio-input {
+            width: 130px;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            background: #faf7f2;
+            transition: all 0.2s;
+        }
+
+        .precio-input:focus {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .btn-guardar {
+            padding: 0.7rem 1.5rem;
+            background: #e8a87c;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: 'Quicksand', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-guardar:hover {
+            background: #9d6b53;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(232, 168, 124, 0.3);
+        }
+
+        .btn-guardar:active {
+            transform: translateY(0);
+        }
+
+        .btn-guardar.cargando {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .sin-productos {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9d6b53;
+        }
+
+        .sin-productos i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .sin-productos p {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <div class="store-badge">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="user-chip">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ user.first_name|default:user.username }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tarjeta de precios -->
+        <div class="precios-card">
+            <!-- Título -->
+            <div class="precios-title">
+                <i class="fas fa-tag"></i>
+                <h2>Editar Precios</h2>
+            </div>
+
+            <!-- Búsqueda -->
+            <div class="search-section">
+                <input 
+                    type="text" 
+                    class="search-input"
+                    id="searchInput" 
+                    placeholder="Buscar por nombre o SKU..."
+                >
+                <button class="btn-guardar" onclick="autoguardarTodos()">
+                    <i class="fas fa-save"></i> Guardar todo
+                </button>
+            </div>
+
+            {% if productos %}
+            <!-- Tabla de precios -->
+            <table class="precios-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">SKU</th>
+                        <th style="width: 35%;">Nombre</th>
+                        <th style="width: 15%;">Categoría</th>
+                        <th style="width: 18%;">Precio Pieza</th>
+                        <th style="width: 17%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr class="fila-producto" data-producto-id="{{ producto.id }}" data-search="{{ producto.nombre|lower }} {{ producto.sku|lower }}">
+                        <td>
+                            <span class="sku-badge">{{ producto.sku }}</span>
+                        </td>
+                        <td>
+                            <strong>{{ producto.nombre }}</strong>
+                        </td>
+                        <td>
+                            <span class="categoria-badge">{{ producto.categoria.nombre }}</span>
+                        </td>
+                        <td>
+                            <input 
+                                type="number" 
+                                class="precio-input precio-pieza" 
+                                value="{{ producto.precio_pieza }}"
+                                step="0.01"
+                                min="0.01"
+                                data-original="{{ producto.precio_pieza }}"
+                            >
+                        </td>
+                        <td>
+                            <button 
+                                class="btn-guardar" 
+                                onclick="guardarPrecio(this)"
+                                data-producto-id="{{ producto.id }}"
+                            >
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="sin-productos">
+                <i class="fas fa-inbox"></i>
+                <p>No hay productos para editar precios</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart"></i> Papelería Yessy
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filtro de búsqueda
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const query = this.value.toLowerCase();
+            const filas = document.querySelectorAll('.fila-producto');
+            
+            filas.forEach(fila => {
+                const searchText = fila.getAttribute('data-search');
+                if (searchText.includes(query)) {
+                    fila.style.display = '';
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
+        });
+
+        // Guardar un precio individual
+        function guardarPrecio(button) {
+            const fila = button.closest('.fila-producto');
+            const productoId = button.getAttribute('data-producto-id');
+            const precioPieza = fila.querySelector('.precio-pieza').value;
+            
+            if (!precioPieza || parseFloat(precioPieza) <= 0) {
+                showError('Precio inválido', 'El precio de pieza debe ser mayor a 0');
+                return;
+            }
+            
+            button.classList.add('cargando');
+            button.disabled = true;
+            const textoOriginal = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+            
+            fetch('{% url "productos:editar_precios" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    producto_id: productoId,
+                    precio_pieza: parseFloat(precioPieza),
+                    precio_paquete: null
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exito) {
+                    showSuccess('Precio actualizado', data.mensaje);
+                    button.classList.remove('cargando');
+                    button.disabled = false;
+                    button.innerHTML = textoOriginal;
+                } else {
+                    showError('Error', data.error || 'No se pudo guardar el precio');
+                    button.classList.remove('cargando');
+                    button.disabled = false;
+                    button.innerHTML = textoOriginal;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Error de conexión', 'Hubo un problema al guardar el precio');
+                button.classList.remove('cargando');
+                button.disabled = false;
+                button.innerHTML = textoOriginal;
+            });
+        }
+
+        // Guardar todos los precios modificados
+        function autoguardarTodos() {
+            const filas = document.querySelectorAll('.fila-producto');
+            let cambios = 0;
+            
+            filas.forEach(fila => {
+                const precioPiezaInput = fila.querySelector('.precio-pieza');
+                const original = precioPiezaInput.getAttribute('data-original');
+                
+                if (precioPiezaInput.value !== original) {
+                    const button = fila.querySelector('.btn-guardar');
+                    guardarPrecio(button);
+                    cambios++;
+                }
+            });
+            
+            if (cambios === 0) {
+                showWarning('Sin cambios', 'No hay cambios para guardar');
+            }
+        }
+
+        // Obtener cookie CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+
+    <!-- Sistema Global de Notificaciones -->
+    <script src="{% static 'js/notifications.js' %}"></script>
+</body>
+</html>

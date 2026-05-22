@@ -1,0 +1,1580 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Nueva Venta</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado con navegación */
+        .sale-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Contenedor principal */
+        .sale-container {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 2rem;
+            width: 100%;
+            margin: 1rem 0 2rem;
+        }
+
+        /* Panel izquierdo - Búsqueda */
+        .search-panel {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+            border: 1px solid #fff1e6;
+            height: fit-content;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel-title i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 0.8rem;
+            border-radius: 20px;
+        }
+
+        .panel-title h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Buscador principal */
+        .main-search {
+            margin-bottom: 2rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f8f4f0;
+            border-radius: 60px;
+            padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+            border: 2px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .search-box i {
+            color: #bc9b8b;
+            font-size: 1.1rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: #c9e4de;
+            border: none;
+            border-radius: 60px;
+            padding: 0.8rem 1.8rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            color: #2d6a4f;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-box button:hover {
+            background: #b7d9d0;
+        }
+
+        /* Resultados de búsqueda */
+        .search-results {
+            background: #f8f4f0;
+            border-radius: 30px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item:hover {
+            background: #ffe5d9;
+            transform: translateX(5px);
+        }
+
+        .result-info h4 {
+            font-size: 1.1rem;
+            color: #4a4e69;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-info p {
+            font-size: 0.85rem;
+            color: #bc9b8b;
+        }
+
+        .result-price {
+            font-weight: 600;
+            color: #e5987c;
+            font-size: 1.2rem;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #bc9b8b;
+            padding: 2rem;
+        }
+
+        /* Entrada rápida SKU (opcional) */
+        .quick-sku {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #f0d9cc;
+        }
+
+        .quick-sku label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b705c;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .sku-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .sku-input input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .sku-input input:focus {
+            border-color: #e8a87c;
+        }
+
+        .sku-input button {
+            background: #fdf0e0;
+            border: none;
+            border-radius: 60px;
+            padding: 0.8rem 1.5rem;
+            color: #e5987c;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .sku-input button:hover {
+            background: #fce2d1;
+        }
+
+        /* Aviso del scanner */
+        .scanner-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #fdf0e0;
+            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            color: #9d6b53;
+            font-size: 0.9rem;
+        }
+
+        .scanner-hint i {
+            color: #e8a87c;
+        }
+
+        .scanner-hint .badge {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Dropdown de búsqueda por SKU */
+        .sku-input {
+            position: relative;
+        }
+
+        .sku-search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #ffe9d7;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .sku-search-dropdown.show {
+            display: block;
+        }
+
+        .sku-search-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0d9cc;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .sku-search-item:hover {
+            background: #faf7f2;
+            padding-left: 1.5rem;
+        }
+
+        .sku-search-item:last-child {
+            border-bottom: none;
+        }
+
+        .sku-item-name {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .sku-item-details {
+            font-size: 0.85rem;
+            color: #9d6b53;
+        }
+
+        /* Panel derecho - Ticket */
+        .ticket-panel {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ticket-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #f0d9cc;
+        }
+
+        .ticket-header h3 {
+            font-size: 1.8rem;
+            color: #4a4e69;
+            margin-bottom: 0.3rem;
+        }
+
+        .ticket-header p {
+            color: #bc9b8b;
+            font-size: 0.95rem;
+        }
+
+        .ticket-header i {
+            color: #e8a87c;
+            margin: 0 0.3rem;
+        }
+
+        /* Lista de productos en el ticket */
+        .ticket-items {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f5e6dd;
+        }
+
+        .ticket-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .ticket-item-name {
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 1.1rem;
+        }
+
+        .ticket-item-sku {
+            font-size: 0.8rem;
+            color: #bc9b8b;
+        }
+
+        .ticket-item-details {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .ticket-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #f8f4f0;
+            padding: 0.4rem;
+            border-radius: 40px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: #e5987c;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #e5987c;
+            color: white;
+        }
+
+        .qty-number {
+            font-weight: 600;
+            min-width: 25px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .ticket-item-price {
+            font-weight: 600;
+            color: #e5987c;
+            font-size: 1.2rem;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        /* Input de cantidad */
+        .qty-input {
+            font-weight: 600;
+        }
+
+        .qty-input:focus {
+            outline: 2px solid #e5987c;
+            outline-offset: 1px;
+        }
+
+        .remove-item {
+            color: #f8acb4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .remove-item:hover {
+            color: #e57a87;
+            font-size: 1.2rem;
+        }
+
+        /* Alerta cuando se alcanza el stock límite */
+        .ticket-item.warning {
+            background-color: #ffe5e5;
+            padding: 0.8rem;
+            border-radius: 15px;
+            border-left: 4px solid #f8acb4;
+        }
+
+        .ticket-item.warning .ticket-item-sku {
+            color: #d46a6a;
+            font-weight: 600;
+        }
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+
+        .remove-item:hover {
+            color: #f28b82;
+            transform: scale(1.1);
+        }
+
+        /* Totales del ticket */
+        .ticket-totals {
+            background: #f8f4f0;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            color: #7f7b82;
+        }
+
+        .total-row.final {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4a4e69;
+            border-top: 2px solid #f0d9cc;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Métodos de pago */
+        .ticket-payment {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-option {
+            flex: 1;
+            background: #f8f4f0;
+            border: 2px solid #ffe9d7;
+            border-radius: 40px;
+            padding: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            color: #7f7b82;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .payment-option:hover {
+            background: #ffe5d9;
+            border-color: #e8a87c;
+            color: #9d6b53;
+        }
+
+        .payment-option.active {
+            background: #c9e4de;
+            border-color: #2d6a4f;
+            color: #2d6a4f;
+        }
+
+        /* Botón finalizar */
+        .finish-btn {
+            background: #e8a87c;
+            border: none;
+            border-radius: 60px;
+            padding: 1.3rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            width: 100%;
+        }
+
+        .finish-btn:hover:not(:disabled) {
+            background: #e5987c;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -10px #e8a87c;
+        }
+
+        .finish-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Scroll personalizado */
+        .ticket-items::-webkit-scrollbar,
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ticket-items::-webkit-scrollbar-track,
+        .search-results::-webkit-scrollbar-track {
+            background: #f5e6dd;
+            border-radius: 10px;
+        }
+
+        .ticket-items::-webkit-scrollbar-thumb,
+        .search-results::-webkit-scrollbar-thumb {
+            background: #e8a87c;
+            border-radius: 10px;
+        }
+
+        /* Estilos para Modal de Pago */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0d9cc;
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h3 {
+            color: #4a4e69;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #9d6b53;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            color: #e8a87c;
+        }
+
+        .modal-body {
+            margin-bottom: 2rem;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #faf7f2;
+            border-radius: 20px;
+        }
+
+        .payment-row label {
+            font-weight: 600;
+            color: #4a4e69;
+            flex: 1;
+        }
+
+        .payment-row input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            outline: none;
+        }
+
+        .payment-row input:focus {
+            border-color: #e8a87c;
+            background: white;
+        }
+
+        .payment-amount,
+        .change-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e8a87c;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel,
+        .btn-confirm {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel {
+            background: #f8f4f0;
+            color: #9d6b53;
+            border: 2px solid #ffe9d7;
+        }
+
+        .btn-cancel:hover {
+            background: #ffe5d9;
+        }
+
+        .btn-confirm {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background: #d99860;
+            transform: scale(1.05);
+        }
+
+        /* Estilos para Modal de Ticket */
+        .ticket-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .ticket-modal.show {
+            display: flex;
+        }
+
+        .ticket-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .ticket-print {
+            background: white;
+            border: 2px dashed #ffe9d7;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #2d3e50;
+            text-align: center;
+        }
+
+        .ticket-print .ticket-header {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ffe9d7;
+            padding-bottom: 1rem;
+        }
+
+        .ticket-print .ticket-item {
+            text-align: left;
+            margin: 0.8rem 0;
+        }
+
+        .ticket-print .ticket-item-qty,
+        .ticket-print .ticket-item-price {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .ticket-print .ticket-divider {
+            border-top: 1px solid #ffe9d7;
+            margin: 1rem 0;
+        }
+
+        .ticket-print .ticket-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .ticket-print .ticket-disclaimer {
+            font-size: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ffe9d7;
+            font-style: italic;
+            color: #9d6b53;
+        }
+
+        .ticket-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-print,
+        .btn-new-sale {
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-print {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #d99860;
+            transform: scale(1.05);
+        }
+
+        .btn-new-sale {
+            background: #c9e4de;
+            color: #2d6a4f;
+        }
+
+        .btn-new-sale:hover {
+            background: #a8d5cd;
+            transform: scale(1.05);
+        }
+
+        /* Notificación Toast */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            border-left: 4px solid #f8acb4;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 400px;
+        }
+
+        .toast-notification i {
+            font-size: 1.3rem;
+            color: #f8acb4;
+        }
+
+        .toast-notification-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .toast-notification-title {
+            font-weight: 600;
+            color: #d46a6a;
+            font-size: 0.95rem;
+        }
+
+        .toast-notification-message {
+            font-size: 0.85rem;
+            color: #8b5a5a;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+
+        .toast-notification.hide {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sale-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sale-header {
+                justify-content: center;
+            }
+
+            .toast-notification {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        /* Badge de tipo de venta */
+        .tipo-venta-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .tipo-venta-badge.pieza {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .tipo-venta-badge.paquete {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        /* Modal de Selección Pieza/Paquete */
+        .selection-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .selection-modal.show {
+            display: flex;
+        }
+
+        .selection-modal-content {
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 550px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .selection-modal-header {
+            background: linear-gradient(135deg, #e8a87c 0%, #d99860 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 40px 40px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selection-modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .selection-modal-header .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .selection-modal-header .modal-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .selection-modal-body {
+            padding: 2rem;
+        }
+
+        .simple-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 2px solid #ffe9d7;
+            border-radius: 15px;
+            cursor: pointer;
+           transition: all 0.2s;
+        }
+
+        .simple-option:hover {
+            border-color: #e8a87c;
+            background: #fffaf7;
+        }
+
+        .simple-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+            accent-color: #e8a87c;
+        }
+
+        .simple-option-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .simple-option-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            flex: 1;
+        }
+
+        .simple-option-title {
+            font-weight: 700;
+            color: #4a4e69;
+            font-size: 1.1rem;
+        }
+
+        .simple-option-subtitle {
+            font-size: 0.85rem;
+            color: #9d6b53;
+        }
+
+        .simple-option-price {
+            font-weight: 700;
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .product-info-section {
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #9d6b53;
+            font-size: 0.95rem;
+        }
+
+        .info-value {
+            color: #2d3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .selection-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .option-card {
+            border: 2px solid #ffe9d7;
+            border-radius: 20px;
+            padding: 1.2rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .option-card:hover {
+            border-color: #e8a87c;
+            background: #fffaf7;
+        }
+
+        .option-card input[type="radio"]:checked ~ .option-title,
+        .option-card input[type="radio"]:checked {
+            accent-color: #e8a87c;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #e8a87c;
+        }
+
+        .option-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #4a4e69;
+        }
+
+        .option-details {
+            margin-left: 2.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .price-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: #f8f4f0;
+            border-radius: 12px;
+        }
+
+        .price-label {
+            font-weight: 500;
+            color: #7f7b82;
+            font-size: 0.9rem;
+        }
+
+        .price-value {
+            font-weight: 700;
+            color: #e8a87c;
+            font-size: 1.2rem;
+        }
+
+        .package-info {
+            font-size: 0.85rem;
+            color: #9d6b53;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quantity-section label {
+            font-weight: 600;
+            color: #4a4e69;
+            font-size: 0.9rem;
+        }
+
+        .quantity-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8f4f0;
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .qty-control-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: #e8a87c;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qty-control-btn:hover {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .qty-control-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #4a4e69;
+        }
+
+        .qty-control-input:focus {
+            outline: none;
+        }
+
+        .subtotal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: #fffaf7;
+            border-radius: 12px;
+            border-left: 4px solid #e8a87c;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .selection-modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #ffe9d7;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            background: #fdf0e0;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .selection-modal-footer .btn-cancel,
+        .selection-modal-footer .btn-confirm {
+            padding: 0.8rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .selection-modal {
+                padding: 1rem;
+            }
+
+            .selection-modal-content {
+                border-radius: 20px;
+                max-height: 90vh;
+            }
+
+            .selection-modal-header,
+            .selection-modal-footer {
+                border-radius: 20px;
+            }
+
+            .selection-modal-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .option-details {
+                margin-left: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="sale-header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver al inicio</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy · Venta</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Contenedor principal -->
+        <div class="sale-container">
+            <!-- Token CSRF para formularios -->
+            {% csrf_token %}
+
+            <!-- Panel izquierdo: SCANNER SKU -->
+            <div class="search-panel">
+                <div class="panel-title">
+                    <i class="fas fa-barcode"></i>
+                    <h2>Escanear o buscar</h2>
+                </div>
+
+                <!-- Entrada por SKU (scanner) -->
+                <div class="quick-sku">
+                    <label>
+                        <i class="fas fa-barcode"></i>
+                        <span>Código SKU (para escáner)</span>
+                    </label>
+                    <div class="sku-input">
+                        <input type="text" id="skuInput" placeholder="Escanea, busca producto o escribe SKU..." autofocus>
+                        <button id="addSkuBtn">Agregar</button>
+                        <!-- Dropdown de resultados por búsqueda -->
+                        <div id="skuSearchResults" class="sku-search-dropdown"></div>
+                    </div>
+                    <div class="scanner-hint" style="margin-top: 1.5rem;">
+                        <i class="fas fa-barcode"></i>
+                        <span>Escáner conectado y funcionando</span>
+                        <span class="badge">activo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel derecho: TICKET -->
+            <div class="ticket-panel">
+                <div class="ticket-header">
+                    <h3>🧾 Ticket de venta</h3>
+                    <p>
+                        <i class="fas fa-calendar"></i> 10/03/2026 
+                        <i class="fas fa-clock"></i> 4:45 pm
+                    </p>
+                </div>
+
+                <!-- Lista de productos en el ticket -->
+                <div class="ticket-items" id="ticketItems">
+                    <div style="text-align: center; color: #bc9b8b; padding: 2rem;">
+                        <i class="fas fa-receipt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>Busca un producto para comenzar</p>
+                    </div>
+                </div>
+
+                <!-- Totales -->
+                <div class="ticket-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>TOTAL:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Métodos de pago -->
+                <div class="ticket-payment">
+                    <button class="payment-option active" id="cashBtn">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Efectivo
+                    </button>
+                    <button class="payment-option" id="transferBtn">
+                        <i class="fas fa-mobile-alt"></i>
+                        Transferencia
+                    </button>
+                </div>
+
+                <!-- Botón finalizar -->
+                <button class="finish-btn" id="finishBtn" disabled>
+                    <i class="fas fa-check-circle"></i>
+                    Finalizar venta
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de Selección Pieza/Paquete -->
+        <div class="selection-modal" id="selectionModal">
+            <div class="selection-modal-content">
+                <div class="selection-modal-header">
+                    <h3 id="productNameHeader">Producto</h3>
+                    <button class="modal-close" onclick="closeSelectionModal()">&times;</button>
+                </div>
+                
+                <div class="selection-modal-body">
+                    <p style="text-align: center; color: #7f7b82; margin-bottom: 2rem;">¿Cómo deseas vender este producto?</p>
+
+                    <!-- Opción Pieza -->
+                    <div class="simple-option">
+                        <label class="simple-option-label">
+                            <input type="radio" name="tipoVenta" value="pieza" class="option-radio" checked> 
+                            <div class="simple-option-content">
+                                <span class="simple-option-title">Por Pieza</span>
+                                <span class="simple-option-price" id="precioPiezaSimple">$0.00</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Opción Paquete -->
+                    <div class="simple-option" id="paqueteOptionSimple" style="display: none;">
+                        <label class="simple-option-label">
+                            <input type="radio" name="tipoVenta" value="paquete" class="option-radio">
+                            <div class="simple-option-content">
+                                <span class="simple-option-title" id="paqueteTitleSimple">Por Paquete</span>
+                                <span class="simple-option-subtitle" id="paqueteInfoSimple">6 piezas</span>
+                                <span class="simple-option-price" id="precioPaqueteSimple">$0.00</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="selection-modal-footer">
+                    <button class="btn-cancel" onclick="closeSelectionModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmSelection()">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Pago -->
+        <div class="payment-modal" id="paymentModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>💰 Procesar Pago</h3>
+                    <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Total a pagar -->
+                    <div class="payment-row">
+                        <label>Total a pagar:</label>
+                        <div class="payment-amount" id="totalAmount">$0.00</div>
+                    </div>
+
+                    <!-- Monto pagado -->
+                    <div class="payment-row">
+                        <label for="amountPaid">Monto recibido $ *</label>
+                        <input type="number" id="amountPaid" placeholder="Ingresa el monto recibido" min="0" step="0.01" onchange="calculateChange()">
+                    </div>
+
+                    <!-- Cambio -->
+                    <div class="payment-row">
+                        <label>Cambio:</label>
+                        <div class="change-amount" id="changeAmount">$0.00</div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="modal-footer">
+                        <button class="btn-cancel" onclick="closePaymentModal()">Cancelar</button>
+                        <button class="btn-confirm" id="confirmPaymentBtn" onclick="finishSaleAndGenerateTicket()">Generar Ticket</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Ticket -->
+        <div class="ticket-modal" id="ticketModal">
+            <div class="ticket-content">
+                <div class="ticket-print" id="ticketContent"></div>
+                <div class="ticket-footer">
+                    <button class="btn-print" onclick="printTicket()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button class="btn-new-sale" onclick="closeTicketModal()">
+                        <i class="fas fa-plus"></i> Nueva venta
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart" style="color: #f8acb4;"></i> 
+                Papelería Yessy · Busca por nombre o escanea
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+                <span><i class="fas fa-shield"></i> Inventario en tiempo real</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para funcionalidad -->
+    {% load static %}
+    <script src="{% static 'js/venta.js' %}"></script>
+</body>
+</html>

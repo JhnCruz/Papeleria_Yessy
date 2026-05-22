@@ -1,0 +1,161 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block titulo %}Eliminar Producto | Papelería Yessy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .warning-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .warning-box {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+    }
+
+    .warning-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .warning-box h1 {
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .producto-info {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .producto-nombre {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2d3e50;
+        margin-bottom: 1rem;
+    }
+
+    .producto-detalles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+    .producto-detalles strong {
+        color: #2d3e50;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-eliminar-confirm {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+    }
+
+    .btn-eliminar-confirm:hover {
+        background: linear-gradient(135deg, #bd2130 0%, #a71d2a 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-cancelar {
+        background: linear-gradient(135deg, #e8a87c 0%, #d4956f 100%);
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+    }
+
+    .btn-cancelar:hover {
+        background: linear-gradient(135deg, #d4956f 0%, #c1845e 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(232, 168, 124, 0.3);
+        color: white;
+    }
+
+    .warning-text {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="warning-container">
+    <div class="warning-box">
+        <div class="warning-icon">⚠️</div>
+        <h1>¿Eliminar Producto?</h1>
+        <p class="warning-text">
+            Estás a punto de desactivar este producto. No se eliminará de la base de datos, 
+            pero no aparecerá en las ventas ni en los reportes.
+        </p>
+    </div>
+
+    <div class="producto-info">
+        <div class="producto-nombre">{{ producto.nombre }}</div>
+        
+        <div class="producto-detalles">
+            <div>
+                <strong>SKU:</strong> {{ producto.sku }}
+            </div>
+            <div>
+                <strong>Categoría:</strong> {{ producto.categoria.nombre }}
+            </div>
+            <div>
+                <strong>Precio:</strong> ${{ producto.precio_pieza }}
+            </div>
+            <div>
+                <strong>Stock:</strong> {{ producto.stock_actual }} unidades
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" style="display: inline;">
+        {% csrf_token %}
+        <div class="btn-group">
+            <button type="submit" class="btn-eliminar-confirm">
+                <i class="fas fa-check"></i> Sí, Desactivar Producto
+            </button>
+            <a href="{% url 'productos:admin_productos' %}" class="btn-cancelar">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Papelería Yessy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 40px;
+            padding: 1.8rem;
+            border: 2px solid #ffe9d7;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #4a4e69;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-card .number {
+            color: #e8a87c;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 40px;
+            padding: 1.8rem;
+            border: 2px solid #ffe9d7;
+            transition: all 0.2s;
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .report-card:hover {
+            border-color: #e8a87c;
+            transform: translateY(-3px);
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .report-header i {
+            font-size: 1.8rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+
+        .report-header h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table tr {
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .report-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .report-table td, .report-table th {
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .report-table th {
+            font-weight: 600;
+            color: #4a4e69;
+            border-bottom: 2px solid #e8a87c;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.7rem 2rem;
+            background-color: white;
+            border: 2px solid #ffe9d7;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+        }
+
+        @media (max-width: 700px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <a href="{% url 'reportes:dashboard' %}" class="back-home"><i class="fas fa-arrow-left"></i> Volver</a>
+            <div class="store-badge"><i class="fas fa-store"></i> <span>Papelería Yessy</span></div>
+        </div>
+
+        <div class="page-title">
+            <i class="fas fa-boxes"></i>
+            <h1>Estado del Inventario</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><i class="fas fa-box"></i> Total de Productos</h3>
+                <div class="number">{{ total_productos }}</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Bajo Stock</h3>
+                <div class="number">{{ bajo_stock|length }}</div>
+            </div>
+        </div>
+
+        {% if bajo_stock %}
+        <div class="report-card">
+            <div class="report-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Productos con Stock Bajo</h3>
+            </div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Categoría</th>
+                        <th>Stock Actual</th>
+                        <th>Stock Mínimo</th>
+                        <th>Faltante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in bajo_stock %}
+                    <tr style="background: #fff9e6;">
+                        <td style="color: #4a4e69; font-weight: 600;">{{ producto.nombre }}</td>
+                        <td>{{ producto.sku }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td style="color: #c62828; font-weight: 600;">{{ producto.stock_actual }} pz</td>
+                        <td>{{ producto.stock_minimo }} pz</td>
+                        <td><span style="background: #ffcccc; color: #c62828; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">-{{ producto.stock_minimo|add:producto.stock_actual|stringformat:"-d" }} pz</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <div class="report-card">
+            <div class="report-header">
+                <i class="fas fa-shelves"></i>
+                <h3>Todos los Productos</h3>
+            </div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Categoría</th>
+                        <th>Precio (pz)</th>
+                        <th>Precio (paq)</th>
+                        <th>Stock Actual</th>
+                        <th>Stock Mín.</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td style="color: #4a4e69; font-weight: 600;">{{ producto.nombre }}</td>
+                        <td>{{ producto.sku }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>${{ producto.precio_pieza }}</td>
+                        <td>
+                            {% if producto.precio_paquete %}
+                                ${{ producto.precio_paquete }}
+                            {% else %}
+                                --
+                            {% endif %}
+                        </td>
+                        <td style="font-weight: 600;">{{ producto.stock_actual }} pz</td>
+                        <td>{{ producto.stock_minimo }} pz</td>
+                        <td>
+                            {% if producto.stock_actual == 0 %}
+                                <span style="background: #ffcccc; color: #c62828; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">🚫 Sin Stock</span>
+                            {% elif producto.stock_actual < producto.stock_minimo %}
+                                <span style="background: #ffe0b2; color: #e65100; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">⚠️ Urgente</span>
+                            {% else %}
+                                <span style="background: #ccf2dd; color: #1b5e20; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">✓ OK</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #bc9b8b;">No hay productos registrados</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'reportes:dashboard' %}" class="back-link"><i class="fas fa-arrow-left"></i> Volver a Reportes</a>
+    </div>
+</body>
+</html>

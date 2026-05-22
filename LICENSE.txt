@@ -1,0 +1,74 @@
+=================================================================================
+                  TÉRMINOS DE LICENCIA
+                  Papelería Yessy v2.1
+=================================================================================
+
+ACUERDO DE LICENCIA DE SOFTWARE
+
+Esta es una demostración del Acuerdo de Licencia de Software para Papelería Yessy.
+Por favor lee cuidadosamente los términos y condiciones antes de instalar.
+
+1. LICENCIA DE USO
+   El usuario obtiene una licencia personal, no transferible para usar este 
+   software en una única computadora. El usuario no puede copiar, modificar, 
+   distribuir o vender este software.
+
+2. PROPIEDAD INTELECTUAL
+   El software y toda su documentación están protegidos por derechos de autor. 
+   © 2024-2026 Papelería Yessy. Todos los derechos reservados.
+
+3. LIMITACIÓN DE RESPONSABILIDAD
+   Este software se proporciona "tal como está" sin garantía de ningún tipo, 
+   ya sea expresada o implícita. El usuario asume todo el riesgo de calidad 
+   y rendimiento.
+
+4. DATOS Y PRIVACIDAD
+   Los datos comerciales ingresados en este sistema permanecen en la máquina 
+   local y nunca se envían a servidores externos. El usuario es responsable 
+   de hacer backup de sus datos.
+
+5. SOPORTE TÉCNICO
+   Se proporciona soporte técnico básico. Para asistencia, contacta al 
+   administrador del sistema.
+
+6. ACEPTACIÓN
+   Al hacer clic en "Acepto", declaras que has leído y aceptado estos 
+   términos y condiciones.
+
+=================================================================================
+                    FEATURES v2.1
+=================================================================================
+
+✓ Dashboard de Inventario General con estadísticas
+✓ Gestión completa de productos (crear, editar, eliminar)
+✓ Sistema de registro de ventas y devoluciones
+✓ Reportes de inventario y ventas
+✓ Corte de caja automatizado
+✓ Gestión de usuarios con roles (Vendedor, Supervisor, Admin)
+✓ Logging de seguridad y auditoría
+✓ Compresión GZIP para mejor rendimiento
+✓ Interfaz responsive y moderna
+✓ Instalador profesional
+
+=================================================================================
+                    REQUISITOS DEL SISTEMA
+=================================================================================
+
+Mínimos:
+  • Windows 7 o superior (32-bit o 64-bit)
+  • 500 MB de espacio en disco
+  • Python 3.9+ (se proporciona en algunos casos)
+  • 1 GB de RAM
+
+Recomendados:
+  • Windows 10 o superior (64-bit)
+  • 1 GB de espacio en disco
+  • Python 3.11+
+  • 2 GB de RAM
+
+=================================================================================
+
+¿Aceptas estos términos? Si haces clic en "Acepto", la instalación continuará.
+Si no aceptas estos términos, haz clic en "No acepto" y la instalación se cancelará.
+
+=================================================================================

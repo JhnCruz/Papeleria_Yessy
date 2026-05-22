@@ -1,0 +1,690 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Corte de Caja</title>
+    <!-- Fuente suave y amigable -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Título */
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .page-title i {
+            font-size: 2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .page-title .date-badge {
+            background: #c9e4de;
+            color: #2d6a4f;
+            padding: 0.5rem 1.5rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            margin-left: 1rem;
+        }
+
+        /* Tarjeta principal del corte */
+        .cut-card {
+            background: white;
+            border-radius: 50px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .cut-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #f0d9cc;
+        }
+
+        .cut-header h2 {
+            font-size: 1.8rem;
+            color: #4a4e69;
+            margin-bottom: 0.5rem;
+        }
+
+        .cut-header p {
+            color: #bc9b8b;
+            font-size: 1rem;
+        }
+
+        .cut-header i {
+            color: #e8a87c;
+        }
+
+        /* Resumen de ventas */
+        .sales-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .summary-box {
+            background: #f8f4f0;
+            border-radius: 30px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid #ffe9d7;
+        }
+
+        .summary-box i {
+            font-size: 2rem;
+            color: #e8a87c;
+            margin-bottom: 0.8rem;
+        }
+
+        .summary-box .label {
+            color: #7f7b82;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .summary-box .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4a4e69;
+        }
+
+        .summary-box .value small {
+            font-size: 0.9rem;
+            color: #bc9b8b;
+            font-weight: 400;
+        }
+
+        /* Detalle de métodos de pago */
+        .payment-detail {
+            background: #fdf0e0;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ffe9d7;
+        }
+
+        .payment-row:last-child {
+            border-bottom: none;
+        }
+
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .payment-info i {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e8a87c;
+        }
+
+        .payment-info span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .payment-amount {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        .payment-count {
+            color: #bc9b8b;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Totales finales */
+        .final-totals {
+            background: #c9e4de;
+            border-radius: 30px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border: 2px solid #2d6a4f;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .total-row.grand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d6a4f;
+            border-top: 2px solid #2d6a4f;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Acciones del corte */
+        .cut-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 1.2rem;
+            border-radius: 60px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .btn-primary {
+            background: #e8a87c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e5987c;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -10px #e8a87c;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #7f7b82;
+            border: 2px solid #ffe9d7;
+        }
+
+        .btn-secondary:hover {
+            background: #ffe5d9;
+            color: #9d6b53;
+        }
+
+        /* Cortes anteriores */
+        .previous-cuts {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            border: 2px solid #ffe9d7;
+            width: 100%;
+        }
+
+        .previous-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .previous-header i {
+            font-size: 1.5rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 0.8rem;
+            border-radius: 20px;
+        }
+
+        .previous-header h3 {
+            font-size: 1.3rem;
+            color: #4a4e69;
+        }
+
+        .cut-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #ffe9d7;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cut-history-item:hover {
+            background: #f8f4f0;
+            border-radius: 30px;
+        }
+
+        .cut-history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-date {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .history-date i {
+            color: #bc9b8b;
+        }
+
+        .history-date span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .history-total {
+            font-weight: 700;
+            color: #e5987c;
+        }
+
+        /* Modal de confirmación simple */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 60px;
+            padding: 2.5rem;
+            max-width: 400px;
+            text-align: center;
+            border: 3px solid #e8a87c;
+        }
+
+        .modal-content i {
+            font-size: 4rem;
+            color: #c9e4de;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content h3 {
+            font-size: 1.8rem;
+            color: #4a4e69;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: #7f7b82;
+            margin-bottom: 2rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        .gentle-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #b7afa1;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .sales-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .cut-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Encabezado -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+            
+            <div class="store-badge">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            
+            <div class="user-chip">
+                <i class="fas fa-user-astronaut"></i>
+                <span>{{ user.username|default:"User" }}</span>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <div class="page-title">
+            <i class="fas fa-calculator"></i>
+            <h1>Corte de caja</h1>
+            <span class="date-badge"><i class="far fa-calendar"></i> {{ hoy|date:"d/m/Y" }}</span>
+        </div>
+
+        <!-- Tarjeta de corte actual -->
+        <div class="cut-card">
+            <div class="cut-header">
+                <h2>🧾 Cortes del día</h2>
+                <p><i class="far fa-clock"></i> {{ hoy|date:"d \d\e F \d\e Y" }} · {{ now|date:"H:i" }} (en vivo)</p>
+                
+                <!-- Estado de turnos -->
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <!-- Turno 1 -->
+                    <div style="background: {% if corte_turno1 %}#d4e8d4{% else %}#f5f0e8{% endif %}; color: {% if corte_turno1 %}#2d6a4f{% else %}#9d6b53{% endif %}; padding: 0.8rem 1.5rem; border-radius: 20px; font-weight: 600; display: inline-block; border: 2px solid {% if corte_turno1 %}#a8d5c9{% else %}#ffe9d7{% endif %}; font-size: 0.9rem;">
+                        {% if corte_turno1 %}✅ Turno 1 (1 PM) - Realizado{% else %}⏳ Turno 1 (1 PM) - Automático{% endif %}
+                    </div>
+                    <!-- Turno 2 -->
+                    <div style="background: {% if corte_turno2 %}#d4e8d4{% else %}#f5f0e8{% endif %}; color: {% if corte_turno2 %}#2d6a4f{% else %}#9d6b53{% endif %}; padding: 0.8rem 1.5rem; border-radius: 20px; font-weight: 600; display: inline-block; border: 2px solid {% if corte_turno2 %}#a8d5c9{% else %}#ffe9d7{% endif %};">
+                        {% if corte_turno2 %}✅ Turno 2 (9 PM) - Realizado{% else %}⏰ Turno 2 (9 PM) - Manual{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen rápido -->
+            <div class="sales-summary">
+                <div class="summary-box">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="label">Ventas totales</div>
+                    <div class="value">{{ totales.cantidad_ventas|default:0 }}</div>
+                    <small style="display: block; color: #bc9b8b; font-size: 0.8rem; margin-top: 0.3rem;">transacciones</small>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-cubes"></i>
+                    <div class="label">Artículos vendidos</div>
+                    <div class="value">{{ totales.cantidad_items|default:0 }}</div>
+                    <small style="display: block; color: #bc9b8b; font-size: 0.8rem; margin-top: 0.3rem;">unidades</small>
+                </div>
+                <div class="summary-box">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div class="label">Total {% if totales.total_devoluciones > 0 %}(Neto){% endif %}</div>
+                    <div class="value">${{ totales.total_neto|default:totales.total_ventas|floatformat:2 }}</div>
+                    <small style="display: block; color: #bc9b8b; font-size: 0.8rem; margin-top: 0.3rem;">saldo</small>
+                </div>
+            </div>
+
+            <!-- Detalle por método de pago -->
+            <div class="payment-detail">
+                <div class="payment-row">
+                    <div class="payment-info">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Efectivo</span>
+                    </div>
+                    <div>
+                        <span class="payment-amount">${{ totales.efectivo_neto|default:totales.total_efectivo|default:0 }}</span>
+                        <span class="payment-count">({{ totales.cantidad_efectivo|default:0 }} ventas)</span>
+                    </div>
+                </div>
+                <div class="payment-row">
+                    <div class="payment-info">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Transferencia</span>
+                    </div>
+                    <div>
+                        <span class="payment-amount">${{ totales.transferencias_neto|default:totales.total_transferencias|default:0 }}</span>
+                        <span class="payment-count">({{ totales.cantidad_transferencias|default:0 }} ventas)</span>
+                    </div>
+                </div>
+                {% if totales.total_devoluciones > 0 %}
+                <div class="payment-row" style="background: white; padding: 1rem; border-radius: 15px; margin-top: 0.5rem;">
+                    <div class="payment-info">
+                        <i class="fas fa-undo-alt" style="color: #e8a87c;"></i>
+                        <span>Devoluciones</span>
+                    </div>
+                    <div>
+                        <span class="payment-amount" style="color: #e8a87c;">-${{ totales.total_devoluciones|floatformat:2 }}</span>
+                        <span class="payment-count">({{ totales.cantidad_devoluciones|default:0 }})</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Totales finales -->
+            <div class="final-totals">
+                <div class="total-row">
+                    <span>Total efectivo:</span>
+                    <strong>${{ totales.efectivo_neto|default:totales.total_efectivo|default:0 }}</strong>
+                </div>
+                <div class="total-row">
+                    <span>Total transferencia:</span>
+                    <strong>${{ totales.transferencias_neto|default:totales.total_transferencias|default:0 }}</strong>
+                </div>
+                <div class="total-row grand">
+                    <span>{% if totales.total_devoluciones > 0 %}NETO DEL DÍA{% else %}TOTAL DEL DÍA{% endif %}:</span>
+                    <strong>${{ totales.total_neto|default:totales.total_ventas|default:0 }}</strong>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="cut-actions">
+                <button class="action-btn btn-secondary" onclick="imprimirCorte()">
+                    <i class="fas fa-print"></i>
+                    Imprimir reporte
+                </button>
+                {% if corte_turno2 %}
+                    <button class="action-btn btn-secondary" disabled style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-check-circle"></i>
+                        Ambos turnos completos
+                    </button>
+                {% elif corte_turno1 %}
+                    <!-- Turno 1 realizado, ahora sí puedo hacer Turno 2 -->
+                    <button class="action-btn btn-primary" onclick="confirmarCorte()">
+                        <i class="fas fa-check-circle"></i>
+                        Realizar corte Turno 2
+                    </button>
+                {% else %}
+                    <button class="action-btn btn-secondary" disabled style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-hourglass"></i>
+                        Esperando Turno 1... (automático a la 1 PM)
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Historial de cortes anteriores -->
+        {% if cortes %}
+        <div class="previous-cuts">
+            <div class="previous-header">
+                <i class="fas fa-history"></i>
+                <h3>Cortes anteriores</h3>
+            </div>
+
+            {% for corte in cortes %}
+            <div class="cut-history-item" onclick="verCorte({{ corte.id }})">
+                <div class="history-date">
+                    <i class="far fa-calendar"></i>
+                    <span>{{ corte.fecha_corte|date:"d/m/Y" }}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="text-align: right;">
+                        <div class="history-total">${{ corte.total_ventas|floatformat:2 }}</div>
+                        <small style="color: #bc9b8b; font-size: 0.8rem;)">{{ corte.usuario.username }}</small>
+                    </div>
+                    <i class="fas fa-arrow-right" style="color: #bc9b8b;"></i>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="previous-cuts">
+            <div style="text-align: center; padding: 2rem; color: #bc9b8b;">
+                <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                <p>No hay cortes anteriores</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Modal de confirmación (oculto por defecto) -->
+        <div class="modal-overlay" id="confirmModal" onclick="cerrarModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <i class="fas fa-calculator"></i>
+                <h3>¿Finalizar corte?</h3>
+                <p>Se cerrará la caja del día <strong>{{ hoy|date:"d/m/Y" }}</strong><br>Total: <strong id="confirmTotal">$0.00</strong></p>
+                
+                <textarea id="cortesNotes" placeholder="Notas opcionales (observaciones, diferencias, etc.)" 
+                    style="width: 100%; padding: 1rem; border: 1px solid #ffe9d7; border-radius: 20px; font-family: 'Quicksand', sans-serif; resize: none; margin-bottom: 1.5rem; min-height: 80px; color: #4a4e69;" 
+                    maxlength="500"></textarea>
+                
+                <div class="modal-buttons">
+                    <button class="action-btn btn-secondary" style="flex:1;" onclick="cerrarModal()">
+                        Cancelar
+                    </button>
+                    <button class="action-btn btn-primary" style="flex:1;" onclick="realizarCorte()">
+                        Confirmar corte
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="gentle-footer">
+            <div class="footer-left">
+                <i class="fas fa-heart"></i> Papelería Yessy
+            </div>
+            <div class="footer-right">
+                <span><i class="fas fa-wifi"></i> Modo local</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/corte_caja.js' %}"></script>
+</body>
+</html>

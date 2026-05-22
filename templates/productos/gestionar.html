@@ -1,0 +1,598 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería Yessy · Gestión de Productos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #faf7f2;
+            color: #2d3e50;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #7f7b82;
+            font-weight: 500;
+            border: 1px solid #ffe9d7;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover {
+            background-color: #ffe5d9;
+            color: #9d6b53;
+            transform: translateX(-3px);
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #ffffffd9;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #ffe9d7;
+        }
+
+        .store-badge i {
+            color: #e8a87c;
+            font-size: 1.3rem;
+        }
+
+        .store-badge span {
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background-color: #ffe5d9;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: #9d6b53;
+            font-weight: 600;
+        }
+
+        /* Tarjeta principal */
+        .products-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.15);
+            border: 2px solid #ffe9d7;
+            width: 100%;
+        }
+
+        .products-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .products-title i {
+            font-size: 2.2rem;
+            color: #e8a87c;
+            background: #fdf0e0;
+            padding: 1rem;
+            border-radius: 30px;
+        }
+
+        .products-title h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4a4e69;
+        }
+
+        /* Grid de Productos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #ffe9d7;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(232, 168, 124, 0.2);
+        }
+
+        .product-header {
+            background: linear-gradient(135deg, #fdf0e0 0%, #ffe9d7 100%);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sku-badge {
+            display: inline-block;
+            background: white;
+            color: #e8a87c;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .stock-icon {
+            font-size: 1.8rem;
+        }
+
+        .product-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4a4e69;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: #8d8a7c;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-category i {
+            color: #e8a87c;
+        }
+
+        .product-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #faf7f2;
+            border-radius: 12px;
+        }
+
+        .info-box {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #8d8a7c;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e8a87c;
+        }
+
+        .info-unit {
+            font-size: 0.7rem;
+            color: #a89a8a;
+            margin-top: 0.2rem;
+        }
+
+        .stock-status {
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+        }
+
+        .badge-ok {
+            background: #ccf2dd;
+            color: #2f5230;
+        }
+
+        .badge-urgente {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+
+        .badge-sin {
+            background: #ffcccc;
+            color: #c62828;
+        }
+
+        .product-footer {
+            display: flex;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: #faf7f2;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .btn-product {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInModal 0.3s ease;
+        }
+
+        @keyframes slideInModal {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header i {
+            font-size: 2.5rem;
+            color: #e8a87c;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .modal-header h2 {
+            color: #4a4e69;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .modal-body {
+            color: #8d8a7c;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-body strong {
+            color: #e8a87c;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel {
+            border: 2px solid #d4d0c5;
+            background: white;
+            color: #4a4e69;
+        }
+
+        .btn-cancel:hover {
+            background: #faf7f2;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .products-card {
+                padding: 1.5rem;
+            }
+
+            .products-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .product-info {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <a href="{% url 'index' %}" class="back-home">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <div class="store-badge">
+                <i class="fas fa-warehouse"></i>
+                <span>Papelería Yessy</span>
+            </div>
+            <div class="user-chip">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ user.first_name|default:user.username }}</span>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Productos -->
+        <div class="products-card">
+            <!-- Título -->
+            <div class="products-title">
+                <i class="fas fa-boxes"></i>
+                <h2>Gestión de Productos</h2>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="products-grid">
+                {% for producto in productos %}
+                <div class="product-card">
+                    <!-- Header -->
+                    <div class="product-header">
+                        <span class="sku-badge">{{ producto.sku }}</span>
+                        <span class="stock-icon">📦</span>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="product-body">
+                        <h3 class="product-name">{{ producto.nombre }}</h3>
+                        <div class="product-category">
+                            <i class="fas fa-tag"></i>
+                            {{ producto.categoria.nombre }}
+                        </div>
+
+                        <div class="product-info">
+                            <div class="info-box">
+                                <div class="info-label">Stock</div>
+                                <div class="info-value">{{ producto.stock_actual }}</div>
+                                <div class="info-unit">unidades</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-label">Mínimo</div>
+                                <div class="info-value">{{ producto.stock_minimo }}</div>
+                            </div>
+                        </div>
+
+                        <div class="product-info">
+                            <div class="info-box">
+                                <div class="info-label">Precio</div>
+                                <div class="info-value">${{ producto.precio_pieza }}</div>
+                                <div class="info-unit">por pieza</div>
+                            </div>
+                            {% if producto.precio_paquete %}
+                            <div class="info-box">
+                                <div class="info-label">Paquete</div>
+                                <div class="info-value">${{ producto.precio_paquete }}</div>
+                                <div class="info-unit">x{{ producto.cantidad_paquete }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="stock-status">
+                            {% if producto.estado_stock == 'sin_stock' %}
+                                <span class="badge badge-sin">Sin Stock</span>
+                            {% elif producto.estado_stock == 'urgente' %}
+                                <span class="badge badge-urgente">Stock Urgente</span>
+                            {% else %}
+                                <span class="badge badge-ok">Stock OK</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="product-footer">
+                        <a href="{% url 'productos:editar_producto' producto.id %}" class="btn-product btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <button type="button" class="btn-product btn-delete" data-producto-id="{{ producto.id }}" data-producto-nombre="{{ producto.nombre }}" onclick="mostrarModal(this)">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #8d8a7c;">
+                    <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; display: block;"></i>
+                    <p>No hay productos para mostrar</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar -->
+    <div id="modalEliminar" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-circle"></i>
+                <h2>Confirmar eliminación</h2>
+            </div>
+
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar el producto <strong id="modalProductoNombre"></strong>? Esta acción no se puede deshacer.
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="cerrarModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <form id="formEliminar" method="POST" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-modal btn-confirm">
+                        <i class="fas fa-trash-alt"></i> Sí, eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarModal(boton) {
+            const productoId = boton.getAttribute('data-producto-id');
+            const productoNombre = boton.getAttribute('data-producto-nombre');
+            
+            document.getElementById('modalProductoNombre').textContent = productoNombre;
+            document.getElementById('modalEliminar').style.display = 'flex';
+            
+            const form = document.getElementById('formEliminar');
+            form.action = `/productos/${productoId}/eliminar/`;
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalEliminar').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalEliminar').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+    </script>
+</body>
+</html>
